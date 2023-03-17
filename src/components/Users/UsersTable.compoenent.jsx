@@ -14,6 +14,7 @@ import { getAllUsers } from "../../services/usersService";
 
 const UsersTable = () => {
   const [usersList, setUsersList] = useState([]);
+
   const getUsers = async () => {
     const response = await getAllUsers();
     setUsersList(response);

@@ -7,13 +7,22 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { userDetailsTableHeaders } from ".";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { startGetDocumentsSuccess } from "../../actions/userActions";
+import { useParams } from "react-router-dom";
 
 const UserDetailsTable = () => {
-  const { userDocs } = useSelector((state) => state.documents);
+  const { userDocuments } = useSelector((state) => state.documents);
+  const dispatch = useDispatch();
+  const { idUsuario } = useParams();
+
+  useEffect(() => {
+    dispatch(startGetDocumentsSuccess(idUsuario));
+  }, []);
 
   return (
     <TableContainer>
@@ -26,7 +35,7 @@ const UserDetailsTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {userDocs.map((document) => (
+          {userDocuments.map((document) => (
             <TableRow key={document.id}>
               <TableCell>{document.title}</TableCell>
               <TableCell>

@@ -4,7 +4,7 @@ const initialState = {
     document: {
         url: '',
     },
-    userDocs : []
+    userDocuments : []
 };
 export const documentsReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -19,7 +19,7 @@ export const documentsReducer = (state = initialState, action) => {
         case types.GET_DOCUMENT_SUCCESS:
         return({
             ...state,
-            userDocs: action.payload,
+            userDocuments: action.payload,
         })
         default:
             return state;
