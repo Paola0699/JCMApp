@@ -7,6 +7,7 @@ const UsersScreen = () => {
   const onOpenModal = () => {
     setOpen(true);
   };
+
   return (
     <Grid container>
       <Typography variant="h2">Usuarios</Typography>

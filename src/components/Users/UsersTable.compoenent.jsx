@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { usersTableHeaders } from ".";
 import { getAllUsers } from "../../services/usersService";
 
@@ -36,7 +37,9 @@ const UsersTable = () => {
           {usersList &&
             usersList.map((user) => (
               <TableRow key={user.id}>
-                <TableCell style={{ color: "#001E3C" }}>{user.id}</TableCell>
+                <TableCell style={{ color: "#001E3C" }}>
+                  <Link to={`/${user.id}`}>{user.id}</Link>
+                </TableCell>
                 <TableCell style={{ color: "#001E3C" }}>{user.name}</TableCell>
                 <TableCell style={{ color: "#001E3C" }}>
                   {user.company}

@@ -24,10 +24,29 @@ const usersTableHeaders = [
     title: "Acciones",
   },
 ];
+const userDetailsTableHeaders = [
+  {
+    id: "HEAD-0",
+    title: "Categoría",
+  },
+  {
+    id: "HEAD-1",
+    title: "Status",
+  },
+  {
+    id: "HEAD-2",
+    title: "Última Modificación",
+  },
+  {
+    id: "HEAD-3",
+    title: "Acciones",
+  },
+];
 export {
   UsersScreen,
   usersTableHeaders,
   UsersTable,
   NewUserModal,
   UserDetails,
+  userDetailsTableHeaders,
 };

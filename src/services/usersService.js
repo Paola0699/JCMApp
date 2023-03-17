@@ -24,3 +24,25 @@ export const postNewUser =  async(user) => {
         });
     })
 }
+
+export const getUserDocument = async(userId, cathegoryId) =>{
+    const documentCol = query(collection(db, 'documents'), where('documentType', '==', cathegoryId), where('user', '==', userId));
+    const documentSnapshot = await getDocs(documentCol);
+    const documentsList = documentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return documentsList;
+}
+
+export const getUserDocuments = async(userId)=>{
+    const documentsCol = query(collection(db, 'documentType'));
+    const documentsSnapshot = await getDocs(documentsCol);
+    const documentsList = documentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const newDocumentList = [];
+    documentsList.map( async(document)=>{
+        const response = await getUserDocument(userId, document.id);
+        newDocumentList.push({
+            ...document,
+            ...response[0]
+        })
+    });
+    return newDocumentList;
+}

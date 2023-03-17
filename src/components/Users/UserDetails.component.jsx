@@ -1,6 +1,20 @@
-import React from "react";
+import React, { Fragment, useEffect } from "react";
+import UserDetailsTable from "./UserDetailsTable.component";
+import { useDispatch } from "react-redux";
+import { startGetDocumentsSuccess } from "../../actions/userActions";
+import { useParams } from "react-router-dom";
 
 const UserDetails = () => {
-  return <div>UserDetails.component</div>;
+  const { idUsuario } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(startGetDocumentsSuccess(idUsuario));
+  }, []);
+  return (
+    <Fragment>
+      <UserDetailsTable />
+    </Fragment>
+  );
 };
 export default UserDetails;
