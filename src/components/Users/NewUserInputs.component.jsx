@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import React from "react";
 
-export const NewUserInputs = () => {
+export const NewUserInputs = ({ formik }) => {
   return (
     <>
       <TextField
@@ -13,10 +13,10 @@ export const NewUserInputs = () => {
         variant="outlined"
         margin="normal"
         size="small"
-        /*  value={formik.values.USER}
+        value={formik.values.USER_NAME}
         onChange={formik.handleChange}
-        error={formik.touched.USER && Boolean(formik.errors.USER)}
-        helperText={formik.touched.USER && formik.errors.USER} */
+        error={formik.touched.USER_NAME && Boolean(formik.errors.USER_NAME)}
+        helperText={formik.touched.USER_NAME && formik.errors.USER_NAME}
         autoFocus={false}
       />
       <TextField
@@ -28,6 +28,11 @@ export const NewUserInputs = () => {
         variant="outlined"
         margin="normal"
         size="small"
+        value={formik.values.EMAIL}
+        onChange={formik.handleChange}
+        error={formik.touched.EMAIL && Boolean(formik.errors.EMAIL)}
+        helperText={formik.touched.EMAIL && formik.errors.EMAIL}
+        autoFocus={false}
       />
       <TextField
         fullWidth
@@ -38,6 +43,12 @@ export const NewUserInputs = () => {
         variant="outlined"
         margin="normal"
         size="small"
+        type="password"
+        value={formik.values.PASSWORD}
+        onChange={formik.handleChange}
+        error={formik.touched.PASSWORD && Boolean(formik.errors.PASSWORD)}
+        helperText={formik.touched.PASSWORD && formik.errors.PASSWORD}
+        autoFocus={false}
       />
       <TextField
         fullWidth
@@ -48,6 +59,17 @@ export const NewUserInputs = () => {
         variant="outlined"
         margin="normal"
         size="small"
+        type="password"
+        value={formik.values.PASSWORD_CONFIRM}
+        onChange={formik.handleChange}
+        error={
+          formik.touched.PASSWORD_CONFIRM &&
+          Boolean(formik.errors.PASSWORD_CONFIRM)
+        }
+        helperText={
+          formik.touched.PASSWORD_CONFIRM && formik.errors.PASSWORD_CONFIRM
+        }
+        autoFocus={false}
       />
       <TextField
         fullWidth
@@ -58,6 +80,11 @@ export const NewUserInputs = () => {
         variant="outlined"
         margin="normal"
         size="small"
+        value={formik.values.COMPANY}
+        onChange={formik.handleChange}
+        error={formik.touched.COMPANY && Boolean(formik.errors.COMPANY)}
+        helperText={formik.touched.COMPANY && formik.errors.COMPANY}
+        autoFocus={false}
       />
     </>
   );

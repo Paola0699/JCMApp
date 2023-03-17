@@ -1,5 +1,4 @@
-
-export const ButtonStyles = {
+export const InputStyles = {
     root: {
       "&:hover": {
         backgroundColor: "transparent",
@@ -13,6 +12,7 @@ export const ButtonStyles = {
         backgroundColor: "#F4F4F4",
       },
       fontWeight: "bold",
+      color: '#FFFFFF',
       fontSize: "16px",
       borderRadius: "2px",
       textTransform: "none",

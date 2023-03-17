@@ -1,21 +1,21 @@
 import { createTheme } from "@mui/material/styles";
-import { THDButtonStyles } from "./button";
+import { ButtonStyles } from "./button";
+import { InputStyles } from "./input";
 
-export const THDTheme = createTheme({
+export const JCMTheme = createTheme({
     palette: {
         common: {
             black: "#000000",
             white: "#FFFFFF",
         },
-        type: "light",
+        type: "dark",
         primary: {
-            main: "#F96302",
-            light: "#FDD8C0",
-            dark: "#C14C00",
+            main: "#001E3C",
+            light: "#4C6176",
+            dark: "#00152A",
         },
         secondary: {
-            // Darken so we reach the AA contrast ratio level.
-            main: "#F96302", // darken("#019E84", 0.4),
+            main: "#dabe4c",
         },
         error: {
             main: "#E34A4A",
@@ -54,14 +54,14 @@ export const THDTheme = createTheme({
             A700: "#616161",
         },
         text: {
-            primary: "#212120",
-            secondary: "#FFFFFF",
+            primary: "#A5B0BA",
+            secondary: "#A5B0BA",
             disabled: "#CCCCCB",
             hint: "#7A7978",
         },
     },
     overrides: {
-        MuiButton: THDButtonStyles,
+        MuiButton: ButtonStyles,
         MuiPaper: {
             root: {
               "&$rounded": {
@@ -69,24 +69,19 @@ export const THDTheme = createTheme({
               },
             },
           },
+        MuiInputBase: InputStyles, 
+        MuiOutlinedInput: InputStyles,
     },
     typography: {
         h5: {
-          fontSize: "10px"
-        }
+          fontSize: "30px"
+        },
+        TextField: {
+            fontFamily: "Raleway",
+            fontWeight: "700",
+            textTransform: "none",
+            fontSize: "1rem",
+            color: '#FFFFFF'
+          }
       }
-
-    /*  overrides: {
-       MuiButton: THDButtonStyles,
-       MuiCheckbox: THDCheckboxStyles,
-       MuiFormControlLabel: THDFormControlLabelStyles,
-       MuiPaper: {
-         root: {
-           "&$rounded": {
-             borderRadius: 2,
-           },
-         },
-       },
-       MuiAlert: THDAlertStyles,
-     }, */
 });

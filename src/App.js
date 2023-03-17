@@ -2,12 +2,12 @@ import AppRouter from './routers/AppRouter';
 import { Provider } from "react-redux";
 import { store } from './store/store';
 import { ThemeProvider } from '@emotion/react';
-import { THDTheme } from './theme';
+import { JCMTheme } from './theme';
 
 function App() {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={THDTheme}>
+      <ThemeProvider theme={JCMTheme}>
       <AppRouter />
       </ThemeProvider>
     </Provider>

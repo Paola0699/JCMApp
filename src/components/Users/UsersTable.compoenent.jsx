@@ -26,7 +26,9 @@ const UsersTable = () => {
         <TableHead>
           <TableRow>
             {usersTableHeaders.map((header) => (
-              <TableCell key={header.id}>{header.title}</TableCell>
+              <TableCell style={{ color: "#001E3C" }} key={header.id}>
+                {header.title}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -34,12 +36,16 @@ const UsersTable = () => {
           {usersList &&
             usersList.map((user) => (
               <TableRow key={user.id}>
-                <TableCell>{user.id}</TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.company}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <Button>Desactivar</Button>
+                <TableCell style={{ color: "#001E3C" }}>{user.id}</TableCell>
+                <TableCell style={{ color: "#001E3C" }}>{user.name}</TableCell>
+                <TableCell style={{ color: "#001E3C" }}>
+                  {user.company}
+                </TableCell>
+                <TableCell style={{ color: "#001E3C" }}>{user.email}</TableCell>
+                <TableCell style={{ color: "#001E3C" }}>
+                  <Button variant="contained" color="error">
+                    Desactivar
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

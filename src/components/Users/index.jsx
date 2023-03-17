@@ -1,6 +1,7 @@
 import UsersScreen from "./UsersScreen.component";
 import UsersTable from "./UsersTable.compoenent";
 import NewUserModal from "./NewUserModal.component";
+import UserDetails from "./UserDetails.component";
 const usersTableHeaders = [
   {
     id: "HEAD-0",
@@ -23,4 +24,10 @@ const usersTableHeaders = [
     title: "Acciones",
   },
 ];
-export { UsersScreen, usersTableHeaders, UsersTable, NewUserModal };
+export {
+  UsersScreen,
+  usersTableHeaders,
+  UsersTable,
+  NewUserModal,
+  UserDetails,
+};

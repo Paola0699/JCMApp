@@ -3,7 +3,7 @@ import React from "react";
 
 const NewUserButton = () => {
   return (
-    <Button variant="contained" fullWidth>
+    <Button type="submit" variant="contained" fullWidth>
       Crear Usuario
     </Button>
   );

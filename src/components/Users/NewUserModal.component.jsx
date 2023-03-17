@@ -1,5 +1,8 @@
 import { Box, Modal, Typography } from "@mui/material";
+import { useFormik } from "formik";
 import React from "react";
+import { postNewUser } from "../../services/usersService";
+import { newUsersValidationSchema } from "../../validations/newUserValidation";
 import NewUserButton from "./NewUserButton.component";
 import { NewUserInputs } from "./NewUserInputs.component";
 
@@ -15,8 +18,32 @@ const style = {
 };
 
 const NewUserModal = ({ open, setOpen }) => {
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      USER_NAME: "",
+      EMAIL: "",
+      PASSWORD: "",
+      PASSWORD_CONFIRM: "",
+      COMPANY: "",
+    },
+    validationSchema: newUsersValidationSchema,
+    onSubmit: async (values) => {
+      try {
+        const response = await postNewUser(values);
+        console.log(response);
+        formik.resetForm();
+        setOpen(false);
+      } catch (error) {
+        console.log("hay un error");
+        console.error(error);
+      }
+    },
+  });
+
   const handleClose = () => {
     setOpen(false);
+    formik.resetForm();
   };
   return (
     <Modal
@@ -26,14 +53,14 @@ const NewUserModal = ({ open, setOpen }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+        <Typography variant="h5" component="h2">
           Nuevo Usuario
         </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+        <Typography variant="subtitle2" sx={{ mt: 2 }}>
           Ingrese los datos del usuario para crear una nueva cuenta.
         </Typography>
-        <form>
-          <NewUserInputs />
+        <form onSubmit={formik.handleSubmit}>
+          <NewUserInputs formik={formik} />
           <NewUserButton />
         </form>
       </Box>
