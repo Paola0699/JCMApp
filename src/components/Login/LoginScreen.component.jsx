@@ -58,7 +58,15 @@ const LoginScreen = () => {
     >
       <LoginHeader />
       <form onSubmit={formik.handleSubmit}>
-        {error ? <Alert severity="error">{error.message}</Alert> : null}
+        {error ? (
+          <Alert
+            sx={{ marginLeft: 5, marginRight: 5 }}
+            variant="filled"
+            severity="error"
+          >
+            {error.message}
+          </Alert>
+        ) : null}
         <LoginInputs formik={formik} />
         <LoginButton />
       </form>

@@ -1,6 +1,4 @@
 import ErrorPage from "./ErrorPage.component";
 import NavBar from "./NavBar.component";
-export {
-    ErrorPage,
-    NavBar
-}
+import ResponsiveAppBar from "./TopNavBar.component";
+export { ErrorPage, NavBar, ResponsiveAppBar };

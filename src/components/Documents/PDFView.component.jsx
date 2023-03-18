@@ -1,12 +1,27 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
+import { getAuth } from "firebase/auth";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import NavBar from "../Common/NavBar.component";
+const auth = getAuth();
 
 const PDFView = () => {
   const { document } = useSelector((state) => state.documents);
   const { url, category } = document;
+  const [user, setUser] = useState({});
 
-  return (
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      setUser(user);
+    } else {
+      setUser(false);
+    }
+  });
+
+  return !user ? (
+    <Navigate to={"/login"} replace={true} />
+  ) : (
     <Box pb={8}>
       <img
         alt="cover"

@@ -1,7 +1,7 @@
 import UsersScreen from "./UsersScreen.component";
 import UsersTable from "./UsersTable.compoenent";
 import NewUserModal from "./NewUserModal.component";
-import UserDetails from "./UserDetails.component";
+import UserDetailsScreen from "./UserDetailsScreen.component";
 const usersTableHeaders = [
   {
     id: "HEAD-0",
@@ -47,6 +47,6 @@ export {
   usersTableHeaders,
   UsersTable,
   NewUserModal,
-  UserDetails,
+  UserDetailsScreen,
   userDetailsTableHeaders,
 };

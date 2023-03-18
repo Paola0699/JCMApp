@@ -4,12 +4,13 @@ const LoginButton = () => {
   return (
     <Grid
       item
-      sx={12}
+      xs={12}
       display="flex"
       alignItems="center"
       justifyContent="center"
+      sx={{ paddingLeft: 5, paddingRight: 5 }}
     >
-      <Button type="submit" color="primary" variant="contained" fullWidth>
+      <Button type="submit" color="secondary" variant="contained" fullWidth>
         Iniciar Sesión
       </Button>
     </Grid>

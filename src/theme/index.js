@@ -15,7 +15,7 @@ export const JCMTheme = createTheme({
             dark: "#00152A",
         },
         secondary: {
-            main: "#dabe4c",
+            main: "#E5E8EB",
         },
         error: {
             main: "#E34A4A",

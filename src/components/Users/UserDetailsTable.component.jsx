@@ -1,5 +1,6 @@
 import {
   Button,
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -42,20 +43,29 @@ const UserDetailsTable = () => {
           <TableHead>
             <TableRow>
               {userDetailsTableHeaders.map((header) => (
-                <TableCell key={header.id}>{header.title}</TableCell>
+                <TableCell style={{ color: "#001E3C" }} key={header.id}>
+                  {header.title}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {userDocuments.map((document) => (
               <TableRow key={document.id}>
-                <TableCell>{document.title}</TableCell>
-                <TableCell>
-                  {document.lastUpdate
-                    ? "Se ha subido un documento"
-                    : "No se ha cargado ningún documento"}
+                <TableCell style={{ color: "#001E3C" }}>
+                  {document.title}
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ color: "#001E3C" }}>
+                  {document.lastUpdate ? (
+                    <Chip label="Se ha subido un documento" color="success" />
+                  ) : (
+                    <Chip
+                      label="No se ha cargado ningún documento"
+                      color="error"
+                    />
+                  )}
+                </TableCell>
+                <TableCell style={{ color: "#001E3C" }}>
                   {document.lastUpdate
                     ? moment(document.lastUpdate.toDate()).format(
                         "MMMM DD YYYY hh:mm:ss"
@@ -65,7 +75,11 @@ const UserDetailsTable = () => {
                 <TableCell>
                   {document.lastUpdate ? (
                     <>
-                      <Button variant="contained" onClick={handleOpenViewModal}>
+                      <Button
+                        variant="contained"
+                        onClick={handleOpenViewModal}
+                        style={{ marginRight: "5px" }}
+                      >
                         Ver
                       </Button>
                       <ViewDocumentModal
