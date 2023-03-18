@@ -14,7 +14,8 @@ const style = {
   width: 400,
   bgcolor: "background.paper",
   boxShadow: 24,
-  p: 4,
+  p: 8,
+  borderRadius: "10px",
 };
 
 const NewUserModal = ({ open, setOpen }) => {
