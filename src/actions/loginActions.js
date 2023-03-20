@@ -4,7 +4,10 @@ import { types } from "../types/types";
 export const userAuth = (USER, PASSWORD) => {
     return async (dispatch) => {
         const response = await userLogin(USER, PASSWORD);
-        if (response.code) dispatch(getDataFailure(response));
+        if (response.code) dispatch(getDataFailure({
+            code: response.code,
+            message: response.message
+        }));
         if (response.uid) dispatch(getDataSuccess(response));
     }
 }

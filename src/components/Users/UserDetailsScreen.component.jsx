@@ -1,21 +1,32 @@
 import { Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { startGetDocumentsSuccess } from "../../actions/userActions";
 import { ResponsiveAppBar } from "../Common";
 import UserDetailsTable from "./UserDetailsTable.component";
+const auth = getAuth();
 
 const UserDetailsScreen = () => {
   const dispatch = useDispatch();
   const { idUsuario } = useParams();
+  const [user, setUser] = useState({});
   const { selectedUser } = useSelector((state) => state.documents);
   useEffect(() => {
     dispatch(startGetDocumentsSuccess(idUsuario));
   }, [dispatch, idUsuario]);
-
-  return (
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      setUser(user);
+    } else {
+      setUser(false);
+    }
+  });
+  return !user ? (
+    <Navigate to={"/login"} replace={true} />
+  ) : (
     <Grid container>
       <ResponsiveAppBar />
       <Grid

@@ -3,15 +3,16 @@ import { LoginButton, LoginHeader, LoginInputs } from "./index";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "../../validations/loginValidation";
 import { Alert } from "@mui/material";
-import { userLogin } from "../../services/loginService";
 import { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { Navigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { userAuth } from "../../actions/loginActions";
 const auth = getAuth();
 
 const LoginScreen = () => {
-  const [error, setError] = useState();
+  const dispatch = useDispatch();
+  const { error, user: userRole } = useSelector((state) => state.auth);
   const [user, setUser] = useState(false);
   const formik = useFormik({
     enableReinitialize: true,
@@ -23,8 +24,7 @@ const LoginScreen = () => {
     onSubmit: async (values) => {
       try {
         const { USER, PASSWORD } = values;
-        const response = await userLogin(USER, PASSWORD);
-        if (response.code && response.message) setError(response);
+        dispatch(userAuth(USER, PASSWORD));
       } catch (error) {
         console.error(error);
       }
@@ -35,13 +35,17 @@ const LoginScreen = () => {
       if (user) {
         setUser(true);
       } else {
-        console.log("No user");
+        setUser(false);
       }
     });
   }, []);
 
-  return user ? (
-    <Navigate to={"/documentos"} />
+  return user && userRole.type ? (
+    userRole.type === "admin" ? (
+      <Navigate to={"/usuarios"} />
+    ) : (
+      <Navigate to={"/documentos"} />
+    )
   ) : (
     <Grid
       container
@@ -58,7 +62,7 @@ const LoginScreen = () => {
     >
       <LoginHeader />
       <form onSubmit={formik.handleSubmit}>
-        {error ? (
+        {error.message && error.code ? (
           <Alert
             sx={{ marginLeft: 5, marginRight: 5 }}
             variant="filled"

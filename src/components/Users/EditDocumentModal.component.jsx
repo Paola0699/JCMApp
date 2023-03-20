@@ -1,10 +1,6 @@
-import {
-  Button,
-  LinearProgress,
-  Modal,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, LinearProgress, Modal, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import {
   getDownloadURL,
@@ -14,6 +10,7 @@ import {
 } from "firebase/storage";
 import React, { useState } from "react";
 import { postEditDocument } from "../../services/documentsService";
+import { SuccessAlert } from "../Common/index";
 
 const style = {
   position: "absolute",
@@ -31,6 +28,9 @@ const storage = getStorage();
 const EditDocumentModal = ({ open, setOpen, documentType }) => {
   const [progressPercent, setProgressPercent] = useState(0);
   const [file, setFile] = useState();
+  const handleInputClick = () => {
+    document.querySelector("#fileSelector").click();
+  };
   const handleClose = () => {
     setFile();
     setOpen(false);
@@ -56,6 +56,11 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
         getDownloadURL(documentTask.snapshot.ref).then(async (downloadURL) => {
           try {
             await postEditDocument(documentType.id, downloadURL);
+            handleClose();
+            SuccessAlert(
+              "Documento editado",
+              "Se ha editado el documento con éxito"
+            );
           } catch (error) {
             console.log(error);
           }
@@ -74,11 +79,25 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
         <Typography variant="h5" component="h2">
           Actualizar Documento
         </Typography>
-        <TextField
-          fullWidth
+        <input
+          id="fileSelector"
           type="file"
+          name="file"
+          style={{ display: "none" }}
+          accept="application/pdf"
           onChange={(e) => handleSetDocument(e)}
         />
+        <div className="button__upload" onClick={handleInputClick}>
+          <div
+            className="button__upload__border"
+            style={{ border: "3px dashed #001E3C" }}
+          >
+            <FontAwesomeIcon icon={faUpload} />
+            <Typography variant="h6">Subir Archivo</Typography>
+            <Typography variant="subtitle1">(JPG, JPEG, PNG)</Typography>
+          </div>
+        </div>
+
         <LinearProgress variant="determinate" value={progressPercent} />
         <Button
           fullWidth

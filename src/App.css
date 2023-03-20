@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.button__upload {
+  background-color: '#ffcc00';
+  border: 0px solid transparent;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.button__upload__border {
+  align-items: center;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 20%;
+}

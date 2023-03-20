@@ -2,13 +2,7 @@ import { Grid, Link, TextField } from "@mui/material";
 
 const LoginInputs = ({ formik }) => {
   return (
-    <Grid
-      item
-      direction="column"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-    >
+    <Grid item display="flex" alignItems="center" justifyContent="center">
       <Grid container p={4}>
         <Grid item xs={12}>
           <TextField

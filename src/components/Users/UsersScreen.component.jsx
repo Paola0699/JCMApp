@@ -1,16 +1,28 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { getAuth } from "firebase/auth";
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 import { NewUserModal, UsersTable } from ".";
 import { ResponsiveAppBar } from "../Common";
+const auth = getAuth();
 
 const UsersScreen = () => {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState({});
   const onOpenModal = () => {
     setOpen(true);
   };
-
-  return (
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      setUser(user);
+    } else {
+      setUser(false);
+    }
+  });
+  return !user ? (
+    <Navigate to={"/login"} replace={true} />
+  ) : (
     <Grid container>
       <ResponsiveAppBar />
       <Grid

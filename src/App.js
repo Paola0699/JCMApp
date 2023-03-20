@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { store } from './store/store';
 import { ThemeProvider } from '@emotion/react';
 import { JCMTheme } from './theme';
+import './App.css'
 
 function App() {
   return (

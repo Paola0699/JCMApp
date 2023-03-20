@@ -20,8 +20,11 @@ export const authReducer = (state = initialState, action) => {
             }
         case types.GET_DATA_FAILURE:
             return {
-                error: action.payload,
-                ...state
+                ...state,
+                error: {
+                    code: action.payload.code,
+                    message: action.payload.message
+                },
             }
         default:
             return state;
