@@ -1,5 +1,6 @@
 import { getFirestore, collection, getDocs, query, where, addDoc, doc, updateDoc } from 'firebase/firestore/lite';
 import app from '../firebaseElements/firebase';
+import { getUserDocument } from './usersService';
 
 const db = getFirestore(app);
 export const getAllDocumentCategories = async () => {
@@ -9,11 +10,20 @@ export const getAllDocumentCategories = async () => {
     return categoriesList;
 };
 
-export const getAllDocumetsByCategory = async (id) => {
+export const getAllDocumetsByCategory = async (userId, id) => {
     const documentsCol = query(collection(db, 'documentType'), where('category', '==', id));
     const documentsSnapshot = await getDocs(documentsCol);
     const documentsList = documentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return documentsList;
+    const newDocumentList = await Promise.all( documentsList.map(async (document)=> {
+        const response = await getUserDocument(userId, document.id);
+        return {
+            ...document,
+            ...response[0]
+        };
+    }));
+    return newDocumentList;
+
+
 };
 
 export const getDocumentByDocumentType = async (uid, documentType) => {

@@ -35,6 +35,7 @@ const DocumentsListCard = ({ document }) => {
   };
   return (
     <ListItem
+      disabled={!document.document}
       button
       divider
       onClick={getDocumentsList}

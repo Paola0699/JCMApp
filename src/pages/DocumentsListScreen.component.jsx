@@ -17,9 +17,11 @@ const DocumentsListScreen = () => {
   const { user: userRole } = useSelector((state) => state.auth);
   const [documentsList, setDocumentsList] = useState([]);
   const [user, setUser] = useState({});
-
   const getDocumentsList = async () => {
-    const documentsByCategorie = await getAllDocumetsByCategory(idCategory);
+    const documentsByCategorie = await getAllDocumetsByCategory(
+      userRole.uid,
+      idCategory
+    );
     setDocumentsList(documentsByCategorie);
   };
   useEffect(() => {
