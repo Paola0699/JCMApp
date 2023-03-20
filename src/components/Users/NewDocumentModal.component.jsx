@@ -11,24 +11,15 @@ import { postNewDocument } from "../../services/documentsService";
 import { SuccessAlert } from "../Common";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { modalStyle } from "../../variables/styles";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 8,
-  borderRadius: "10px",
-};
 const storage = getStorage();
 
 const NewDocumentModal = ({ open, setOpen, documentType }) => {
   const { selectedUser } = useSelector((state) => state.documents);
   const [file, setFile] = useState();
   const [progressPercent, setProgressPercent] = useState(0);
+  const [loading, setLoading] = useState(false);
   const handleInputClick = () => {
     document.querySelector("#fileSelector").click();
   };
@@ -40,6 +31,7 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
     setFile(e.target.files[0]);
   };
   const handleSubmitDocument = () => {
+    setLoading(true);
     const documentRef = ref(storage, `${Date.now()}`);
     const documentTask = uploadBytesResumable(documentRef, file);
     documentTask.on(
@@ -66,6 +58,7 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
               "Documento cargado",
               "Se ha cargado el documento con éxito"
             );
+            setLoading(false);
           } catch (error) {
             console.log(error);
           }
@@ -80,34 +73,57 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box sx={modalStyle}>
         <Typography variant="h5" component="h2">
           Cargar Nuevo Documento
         </Typography>
-        <input
-          id="fileSelector"
-          type="file"
-          name="file"
-          style={{ display: "none" }}
-          accept="application/pdf"
-          onChange={(e) => handleSetDocument(e)}
-        />
-        <div className="button__upload" onClick={handleInputClick}>
-          <div
-            className="button__upload__border"
-            style={{ border: "3px dashed #001E3C" }}
+        {loading ? (
+          <Box
+            display={"flex"}
+            justifyContent="center"
+            flexDirection={"column"}
           >
-            <FontAwesomeIcon icon={faUpload} />
-            <Typography variant="h6">Subir Archivo</Typography>
-            <Typography variant="subtitle1">(JPG, JPEG, PNG)</Typography>
-          </div>
-        </div>
-
-        <LinearProgress variant="determinate" value={progressPercent} />
+            <Typography>
+              Se está subiendo el documento, por favor espere un momento...
+            </Typography>
+            <Typography variant="h2" textAlign={"center"}>
+              {progressPercent}%
+            </Typography>
+            <LinearProgress
+              style={{ marginBottom: "20px" }}
+              variant="determinate"
+              value={progressPercent}
+            />
+          </Box>
+        ) : (
+          <>
+            {" "}
+            <input
+              id="fileSelector"
+              type="file"
+              name="file"
+              style={{ display: "none" }}
+              accept="application/pdf"
+              onChange={(e) => handleSetDocument(e)}
+            />
+            <div className="button__upload" onClick={handleInputClick}>
+              <div
+                className="button__upload__border"
+                style={{ border: "3px dashed #001E3C" }}
+              >
+                <FontAwesomeIcon icon={faUpload} />
+                <Typography variant="h6">Subir Archivo</Typography>
+                <Typography variant="subtitle1">
+                  {file ? `${file?.name} | ${file.type}` : "(PDF)"}
+                </Typography>
+              </div>
+            </div>{" "}
+          </>
+        )}
         <Button
-          disabled={!file}
-          variant="outlined"
           fullWidth
+          variant="outlined"
+          disabled={!file}
           onClick={handleSubmitDocument}
         >
           Guardar

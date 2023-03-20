@@ -11,7 +11,6 @@ import {
 import React, { Fragment, useState } from "react";
 import { NewDocumentModal, userDetailsTableHeaders } from ".";
 import { useSelector } from "react-redux";
-import moment from "moment";
 import EditDocumentModal from "./EditDocumentModal.component";
 import ViewDocumentModal from "./ViewDocumentModal.component";
 
@@ -62,11 +61,7 @@ const UserDetailsTable = () => {
                   )}
                 </TableCell>
                 <TableCell style={{ color: "#001E3C" }}>
-                  {document.lastUpdate
-                    ? moment(document.lastUpdate.toDate()).format(
-                        "MMMM DD YYYY hh:mm:ss"
-                      )
-                    : "NA"}
+                  {document.lastUpdate ? "Fecha" : "NA"}
                 </TableCell>
                 <TableCell>
                   {document.lastUpdate ? (
@@ -100,11 +95,6 @@ const UserDetailsTable = () => {
                       >
                         Subir Documento
                       </Button>
-                      <NewDocumentModal
-                        open={openNew}
-                        setOpen={setOpenNew}
-                        documentType={selectedDoc}
-                      />
                     </>
                   )}
                 </TableCell>
@@ -113,9 +103,15 @@ const UserDetailsTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
       <EditDocumentModal
         open={openEdit}
         setOpen={setOpenEdit}
+        documentType={selectedDoc}
+      />
+      <NewDocumentModal
+        open={openNew}
+        setOpen={setOpenNew}
         documentType={selectedDoc}
       />
     </Fragment>

@@ -12,8 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { useSelector } from "react-redux";
+import { logOut } from "../../services/loginService";
 
 function stringToColor(string) {
   let hash = 0;
@@ -41,6 +41,7 @@ function stringAvatar(name) {
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { user } = useSelector((state) => state.auth);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -102,11 +103,10 @@ function ResponsiveAppBar() {
               Usuarios
             </Link>
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" {...stringAvatar("Kent Dodds")} />
+                <Avatar alt="Remy Sharp" {...stringAvatar(user.name)} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -125,11 +125,9 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={logOut}>
+                <Typography textAlign="center">Cerrar Sesión</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

@@ -1,19 +1,6 @@
 import { Modal, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import moment from "moment";
-import React from "react";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "white",
-  boxShadow: 24,
-  p: 8,
-  borderRadius: "10px",
-};
+import { modalStyle } from "../../variables/styles";
 
 const ViewDocumentModal = ({ open, setOpen, documentData }) => {
   const handleClose = () => {
@@ -26,14 +13,9 @@ const ViewDocumentModal = ({ open, setOpen, documentData }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box sx={modalStyle}>
         <Typography variant="h6">{documentData.title}</Typography>
-        <Typography variant="subtitle2">
-          Última modificación:{" "}
-          {moment(documentData.lastUpdate.toDate()).format(
-            "MMMM DD YYYY hh:mm:ss"
-          )}
-        </Typography>
+        <Typography variant="subtitle2">Última modificación: Fecha</Typography>
         <iframe
           title="pdf-view"
           style={{
