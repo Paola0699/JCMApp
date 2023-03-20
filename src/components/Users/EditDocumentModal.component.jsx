@@ -10,7 +10,8 @@ const style = {
   width: 400,
   bgcolor: "white",
   boxShadow: 24,
-  p: 4,
+  p: 8,
+  borderRadius: "10px",
 };
 
 const EditDocumentModal = ({ open, setOpen }) => {

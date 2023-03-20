@@ -1,9 +1,20 @@
 import { Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { startGetDocumentsSuccess } from "../../actions/userActions";
 import { ResponsiveAppBar } from "../Common";
 import UserDetailsTable from "./UserDetailsTable.component";
 
 const UserDetailsScreen = () => {
+  const dispatch = useDispatch();
+  const { idUsuario } = useParams();
+  const { selectedUser } = useSelector((state) => state.documents);
+  useEffect(() => {
+    dispatch(startGetDocumentsSuccess(idUsuario));
+  }, [dispatch, idUsuario]);
+
   return (
     <Grid container>
       <ResponsiveAppBar />
@@ -21,10 +32,9 @@ const UserDetailsScreen = () => {
               padding: "40px",
             }}
           >
-            <Typography variant="h4">Nombre de Usuario</Typography>
+            <Typography variant="h4">{selectedUser.name}</Typography>
             <Typography variant="subtitle2">
-              En esta sección podrás encontrar los documentos con los que cuenta
-              este usuario.
+              {selectedUser.email} | {selectedUser.company}
             </Typography>
           </Box>
         </Grid>

@@ -1,5 +1,6 @@
 import { Modal, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import moment from "moment";
 import React from "react";
 
 const style = {
@@ -10,10 +11,11 @@ const style = {
   width: 400,
   bgcolor: "white",
   boxShadow: 24,
-  p: 4,
+  p: 8,
+  borderRadius: "10px",
 };
 
-const ViewDocumentModal = ({ open, setOpen, documentURL }) => {
+const ViewDocumentModal = ({ open, setOpen, documentData }) => {
   const handleClose = () => {
     setOpen(false);
   };
@@ -25,10 +27,22 @@ const ViewDocumentModal = ({ open, setOpen, documentURL }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <Typography variant="h6">{documentData.title}</Typography>
+        <Typography variant="subtitle2">
+          Última modificación:{" "}
+          {moment(documentData.lastUpdate.toDate()).format(
+            "MMMM DD YYYY hh:mm:ss"
+          )}
+        </Typography>
         <iframe
           title="pdf-view"
-          style={{ height: "32rem", width: "100%", border: "0" }}
-          src={documentURL}
+          style={{
+            height: "32rem",
+            width: "100%",
+            border: "0",
+            marginTop: "20PX",
+          }}
+          src={documentData.document}
           type="application/pdf"
         >
           <div>No online PDF viewer installed</div>

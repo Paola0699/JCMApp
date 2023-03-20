@@ -4,7 +4,8 @@ const initialState = {
     document: {
         url: '',
     },
-    userDocuments : []
+    userDocuments : [],
+    selectedUser: {},
 };
 export const documentsReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -17,10 +18,15 @@ export const documentsReducer = (state = initialState, action) => {
                 }
             })
         case types.GET_DOCUMENT_SUCCESS:
-        return({
-            ...state,
-            userDocuments: action.payload,
-        })
+            return({
+                ...state,
+                userDocuments: action.payload,
+            })
+        case types.GET_SELECTED_USER:
+            return({
+                ...state,
+                selectedUser: action.payload
+            })
         default:
             return state;
     }

@@ -8,16 +8,21 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { usersTableHeaders } from ".";
+import { getSelectedUser } from "../../actions/documentsActions";
 import { getAllUsers } from "../../services/usersService";
 
 const UsersTable = () => {
+  const dispatch = useDispatch();
   const [usersList, setUsersList] = useState([]);
-
   const getUsers = async () => {
     const response = await getAllUsers();
     setUsersList(response);
+  };
+  const setSelectedUser = (user) => {
+    dispatch(getSelectedUser(user));
   };
   useEffect(() => {
     getUsers();
@@ -39,7 +44,12 @@ const UsersTable = () => {
             usersList.map((user) => (
               <TableRow key={user.id}>
                 <TableCell style={{ color: "#001E3C" }}>
-                  <Link to={`/${user.id}`}>{user.id}</Link>
+                  <Link
+                    to={`/${user.id}`}
+                    onClick={(e) => setSelectedUser(user)}
+                  >
+                    {user.id}
+                  </Link>
                 </TableCell>
                 <TableCell style={{ color: "#001E3C" }}>{user.name}</TableCell>
                 <TableCell style={{ color: "#001E3C" }}>

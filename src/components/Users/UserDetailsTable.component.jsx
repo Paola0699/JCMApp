@@ -8,34 +8,29 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
-import { userDetailsTableHeaders } from ".";
+import React, { Fragment, useState } from "react";
+import { NewDocumentModal, userDetailsTableHeaders } from ".";
 import { useSelector } from "react-redux";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-import { startGetDocumentsSuccess } from "../../actions/userActions";
-import { useParams } from "react-router-dom";
 import EditDocumentModal from "./EditDocumentModal.component";
 import ViewDocumentModal from "./ViewDocumentModal.component";
 
 const UserDetailsTable = () => {
   const { userDocuments } = useSelector((state) => state.documents);
+  const [selectedDocType, setSelectedDocType] = useState("");
   const [openEdit, setOpenEdit] = useState(false);
   const [openView, setOpenView] = useState(false);
-
+  const [openNew, setOpenNew] = useState(false);
   const handleOpenEditModal = () => {
     setOpenEdit(true);
   };
   const handleOpenViewModal = () => {
     setOpenView(true);
   };
-  const dispatch = useDispatch();
-  const { idUsuario } = useParams();
-
-  useEffect(() => {
-    dispatch(startGetDocumentsSuccess(idUsuario));
-  }, []);
-
+  const handleOpenNewModal = (documentId) => {
+    setSelectedDocType(documentId);
+    setOpenNew(true);
+  };
   return (
     <Fragment>
       <TableContainer>
@@ -85,14 +80,28 @@ const UserDetailsTable = () => {
                       <ViewDocumentModal
                         open={openView}
                         setOpen={setOpenView}
-                        documentURL={document.document}
+                        documentData={document}
                       />
                       <Button variant="outlined" onClick={handleOpenEditModal}>
                         Actualizar
                       </Button>
                     </>
                   ) : (
-                    <Button variant="outlined">Subir Documento</Button>
+                    <>
+                      <Button
+                        variant="outlined"
+                        onClick={() => {
+                          handleOpenNewModal(document.id);
+                        }}
+                      >
+                        Subir Documento
+                      </Button>
+                      <NewDocumentModal
+                        open={openNew}
+                        setOpen={setOpenNew}
+                        documentType={selectedDocType}
+                      />
+                    </>
                   )}
                 </TableCell>
               </TableRow>
