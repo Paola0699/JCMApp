@@ -57,7 +57,11 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
       () => {
         getDownloadURL(documentTask.snapshot.ref).then(async (downloadURL) => {
           try {
-            await postNewDocument(selectedUser.id, downloadURL, documentType);
+            await postNewDocument(
+              selectedUser.id,
+              downloadURL,
+              documentType.id
+            );
           } catch (error) {
             console.log(error);
           }

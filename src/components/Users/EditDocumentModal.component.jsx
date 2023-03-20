@@ -1,6 +1,19 @@
-import { Button, Modal, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  LinearProgress,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import React, { useState } from "react";
+import { postEditDocument } from "../../services/documentsService";
 
 const style = {
   position: "absolute",
@@ -13,10 +26,43 @@ const style = {
   p: 8,
   borderRadius: "10px",
 };
+const storage = getStorage();
 
-const EditDocumentModal = ({ open, setOpen }) => {
+const EditDocumentModal = ({ open, setOpen, documentType }) => {
+  const [progressPercent, setProgressPercent] = useState(0);
+  const [file, setFile] = useState();
   const handleClose = () => {
+    setFile();
     setOpen(false);
+  };
+  const handleSetDocument = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const handleSubmitDocument = () => {
+    const documentRef = ref(storage, `${Date.now()}`);
+    const documentTask = uploadBytesResumable(documentRef, file);
+    documentTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgressPercent(progress);
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(documentTask.snapshot.ref).then(async (downloadURL) => {
+          try {
+            //AQUI
+            await postEditDocument(downloadURL);
+          } catch (error) {
+            console.log(error);
+          }
+        });
+      }
+    );
   };
   return (
     <Modal
@@ -29,8 +75,18 @@ const EditDocumentModal = ({ open, setOpen }) => {
         <Typography variant="h5" component="h2">
           Actualizar Documento
         </Typography>
-        <TextField fullWidth type="file" />
-        <Button fullWidth variant="outlined">
+        <TextField
+          fullWidth
+          type="file"
+          onChange={(e) => handleSetDocument(e)}
+        />
+        <LinearProgress variant="determinate" value={progressPercent} />
+        <Button
+          fullWidth
+          variant="outlined"
+          disabled={!file}
+          onClick={handleSubmitDocument}
+        >
           Guardar
         </Button>
       </Box>

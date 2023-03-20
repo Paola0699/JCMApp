@@ -17,7 +17,7 @@ import ViewDocumentModal from "./ViewDocumentModal.component";
 
 const UserDetailsTable = () => {
   const { userDocuments } = useSelector((state) => state.documents);
-  const [selectedDocType, setSelectedDocType] = useState("");
+  const [selectedDoc, setSelectedDoc] = useState("");
   const [openEdit, setOpenEdit] = useState(false);
   const [openView, setOpenView] = useState(false);
   const [openNew, setOpenNew] = useState(false);
@@ -27,8 +27,8 @@ const UserDetailsTable = () => {
   const handleOpenViewModal = () => {
     setOpenView(true);
   };
-  const handleOpenNewModal = (documentId) => {
-    setSelectedDocType(documentId);
+  const handleOpenNewModal = (document) => {
+    setSelectedDoc(document);
     setOpenNew(true);
   };
   return (
@@ -91,7 +91,7 @@ const UserDetailsTable = () => {
                       <Button
                         variant="outlined"
                         onClick={() => {
-                          handleOpenNewModal(document.id);
+                          handleOpenNewModal(document);
                         }}
                       >
                         Subir Documento
@@ -99,7 +99,7 @@ const UserDetailsTable = () => {
                       <NewDocumentModal
                         open={openNew}
                         setOpen={setOpenNew}
-                        documentType={selectedDocType}
+                        documentType={selectedDoc}
                       />
                     </>
                   )}
