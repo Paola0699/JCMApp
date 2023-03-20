@@ -2,9 +2,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, getDoc } from 'firebase/firestore/lite';
 import app from '../firebaseElements/firebase';
 const auth = getAuth();
-
 const db = getFirestore(app);
-
 
 export const userLogin = async (email, password) => {
     const response = await signInWithEmailAndPassword(auth, email, password)

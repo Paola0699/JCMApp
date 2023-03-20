@@ -3,13 +3,16 @@ import { Box } from "@mui/system";
 import { getAuth } from "firebase/auth";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { NewUserModal, UsersTable } from ".";
-import { ResponsiveAppBar } from "../Common";
+import { NewUserModal, UsersTable } from "../components/Users";
+import { ResponsiveAppBar } from "../components/Common";
+import { useSelector } from "react-redux";
 const auth = getAuth();
 
 const UsersScreen = () => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({});
+  const { user: userRole } = useSelector((state) => state.auth);
+
   const onOpenModal = () => {
     setOpen(true);
   };
@@ -20,9 +23,7 @@ const UsersScreen = () => {
       setUser(false);
     }
   });
-  return !user ? (
-    <Navigate to={"/login"} replace={true} />
-  ) : (
+  return user && userRole?.type === "admin" ? (
     <Grid container>
       <ResponsiveAppBar />
       <Grid
@@ -69,6 +70,8 @@ const UsersScreen = () => {
       </Grid>
       <NewUserModal open={open} setOpen={setOpen} />
     </Grid>
+  ) : (
+    <Navigate to={"/login"} replace={true} />
   );
 };
 export default UsersScreen;

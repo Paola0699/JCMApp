@@ -2,17 +2,19 @@ import { Grid, List } from "@mui/material";
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { getAllDocumetsByCategory } from "../../services/documentsService";
-import NavBar from "../Common/NavBar.component";
-import DocumentsListCard from "./DocumentsListCard.component";
+import { getAllDocumetsByCategory } from "../services/documentsService";
+import NavBar from "../components/Common/NavBar.component";
+import DocumentsListCard from "../components/Documents/DocumentsListCard.component";
+import { useSelector } from "react-redux";
 const auth = getAuth();
 
 const style = {
   width: "100%",
   maxWidth: 500,
 };
-const DocumentsList = () => {
+const DocumentsListScreen = () => {
   const { idCategory } = useParams();
+  const { user: userRole } = useSelector((state) => state.auth);
   const [documentsList, setDocumentsList] = useState([]);
   const [user, setUser] = useState({});
 
@@ -31,10 +33,7 @@ const DocumentsList = () => {
       setUser(false);
     }
   });
-
-  return !user ? (
-    <Navigate to={"/login"} replace={true} />
-  ) : (
+  return user && userRole?.type === "user" ? (
     <>
       <img
         alt="cover"
@@ -58,6 +57,8 @@ const DocumentsList = () => {
       </Grid>
       <NavBar />
     </>
+  ) : (
+    <Navigate to={"/login"} replace={true} />
   );
 };
-export default DocumentsList;
+export default DocumentsListScreen;

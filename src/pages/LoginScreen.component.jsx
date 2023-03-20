@@ -1,13 +1,17 @@
 import { Grid } from "@mui/material";
-import { LoginButton, LoginHeader, LoginInputs } from "./index";
+import {
+  LoginButton,
+  LoginHeader,
+  LoginInputs,
+} from "../components/Login/index";
 import { useFormik } from "formik";
-import { loginValidationSchema } from "../../validations/loginValidation";
+import { loginValidationSchema } from "../validations/loginValidation";
 import { Alert } from "@mui/material";
 import { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { userAuth } from "../../actions/loginActions";
+import { userAuth } from "../actions/loginActions";
 const auth = getAuth();
 
 const LoginScreen = () => {
@@ -40,8 +44,8 @@ const LoginScreen = () => {
     });
   }, []);
 
-  return user && userRole.type ? (
-    userRole.type === "admin" ? (
+  return user && userRole?.type ? (
+    userRole?.type === "admin" ? (
       <Navigate to={"/usuarios"} />
     ) : (
       <Navigate to={"/documentos"} />
