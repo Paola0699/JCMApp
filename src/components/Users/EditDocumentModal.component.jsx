@@ -55,8 +55,7 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
       () => {
         getDownloadURL(documentTask.snapshot.ref).then(async (downloadURL) => {
           try {
-            //AQUI
-            await postEditDocument(downloadURL);
+            await postEditDocument(documentType.id, downloadURL);
           } catch (error) {
             console.log(error);
           }

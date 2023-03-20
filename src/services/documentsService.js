@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDocs, query, where, addDoc, setDoc, doc } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, query, where, addDoc, setDoc, doc, updateDoc } from 'firebase/firestore/lite';
 import app from '../firebaseElements/firebase';
 
 const db = getFirestore(app);
@@ -29,7 +29,7 @@ export const postNewDocument = async (user, documentURL, documentType) => {
     });      
 };
 export const postEditDocument = async (documentId, documentURL) => {
-    return await setDoc(doc(db, 'documents', documentId), {
+    return await updateDoc(doc(db, 'documents', documentId), {
         document: documentURL,
         lastUpdate: new Date(),
     });  

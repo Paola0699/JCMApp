@@ -21,7 +21,8 @@ const UserDetailsTable = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openView, setOpenView] = useState(false);
   const [openNew, setOpenNew] = useState(false);
-  const handleOpenEditModal = () => {
+  const handleOpenEditModal = (document) => {
+    setSelectedDoc(document);
     setOpenEdit(true);
   };
   const handleOpenViewModal = () => {
@@ -82,7 +83,10 @@ const UserDetailsTable = () => {
                         setOpen={setOpenView}
                         documentData={document}
                       />
-                      <Button variant="outlined" onClick={handleOpenEditModal}>
+                      <Button
+                        variant="outlined"
+                        onClick={() => handleOpenEditModal(document)}
+                      >
                         Actualizar
                       </Button>
                     </>
@@ -109,7 +113,11 @@ const UserDetailsTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <EditDocumentModal open={openEdit} setOpen={setOpenEdit} />
+      <EditDocumentModal
+        open={openEdit}
+        setOpen={setOpenEdit}
+        documentType={selectedDoc}
+      />
     </Fragment>
   );
 };
