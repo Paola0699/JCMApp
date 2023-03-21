@@ -36,7 +36,7 @@ export const getUserDocuments = async(userId)=>{
     const documentsCol = query(collection(db, 'documentType'));
     const documentsSnapshot = await getDocs(documentsCol);
     const documentsList = documentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    const newDocumentList = await Promise.all( documentsList.map(async (document)=> {
+    const newDocumentList = await Promise.all( documentsList.map(async (document) => {
         const response = await getUserDocument(userId, document.id);
         return {
             ...document,

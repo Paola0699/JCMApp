@@ -19,14 +19,15 @@ const UserDetailsScreen = () => {
   useEffect(() => {
     dispatch(startGetDocumentsSuccess(idUsuario));
   }, [dispatch, idUsuario]);
-
-  auth.onAuthStateChanged(async (user) => {
-    if (user) {
-      setUser(user);
-    } else {
-      setUser(false);
-    }
-  });
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(false);
+      }
+    });
+  }, []);
   return user && userRole?.type === "admin" ? (
     <Grid container>
       <ResponsiveAppBar />

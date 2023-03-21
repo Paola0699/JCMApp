@@ -7,26 +7,18 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-import { getAuth } from "firebase/auth";
-import { useState } from "react";
-import { getDocumentByDocumentType } from "../../services/documentsService";
 import { useDispatch } from "react-redux";
 import { getDocuments } from "../../actions/documentsActions";
 import { useNavigate } from "react-router-dom";
-const auth = getAuth();
 
 const DocumentsListCard = ({ document }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const [user, setUser] = useState(false);
-  auth.onAuthStateChanged(async (user) => {
-    if (user) setUser(user.uid);
-  });
-  const getDocumentsList = async () => {
+
+  const getDocumentsList = () => {
     try {
-      const newDocument = await getDocumentByDocumentType(user, document.id);
       dispatch(
-        getDocuments({ url: newDocument.document, category: document.title })
+        getDocuments({ url: document.document, category: document.title })
       );
       navigate("/documentos/preview");
     } catch {

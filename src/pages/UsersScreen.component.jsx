@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { getAuth } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { NewUserModal, UsersTable } from "../components/Users";
 import { ResponsiveAppBar } from "../components/Common";
@@ -12,17 +12,19 @@ const UsersScreen = () => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({});
   const { user: userRole } = useSelector((state) => state.auth);
-
   const onOpenModal = () => {
     setOpen(true);
   };
-  auth.onAuthStateChanged(async (user) => {
-    if (user) {
-      setUser(user);
-    } else {
-      setUser(false);
-    }
-  });
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(false);
+      }
+    });
+  }, []);
+
   return user && userRole?.type === "admin" ? (
     <Grid container>
       <ResponsiveAppBar />

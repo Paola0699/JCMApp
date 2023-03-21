@@ -32,7 +32,6 @@ const NewUserModal = ({ open, setOpen }) => {
     onSubmit: async (values) => {
       try {
         const response = await postNewUser(values);
-        console.log(response);
         formik.resetForm();
         setOpen(false);
       } catch (error) {

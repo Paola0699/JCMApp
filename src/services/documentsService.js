@@ -22,8 +22,6 @@ export const getAllDocumetsByCategory = async (userId, id) => {
         };
     }));
     return newDocumentList;
-
-
 };
 
 export const getDocumentByDocumentType = async (uid, documentType) => {

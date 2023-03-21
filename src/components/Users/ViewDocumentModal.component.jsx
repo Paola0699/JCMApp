@@ -1,6 +1,7 @@
 import { Modal, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { modalStyle } from "../../variables/styles";
+import moment from "moment";
 
 const ViewDocumentModal = ({ open, setOpen, documentData }) => {
   const handleClose = () => {
@@ -15,7 +16,12 @@ const ViewDocumentModal = ({ open, setOpen, documentData }) => {
     >
       <Box sx={modalStyle}>
         <Typography variant="h6">{documentData.title}</Typography>
-        <Typography variant="subtitle2">Última modificación: Fecha</Typography>
+        <Typography variant="subtitle2">
+          Última modificación:{" "}
+          {moment(documentData.lastUpdate.seconds * 1000).format(
+            "DD MMMM YYYY"
+          )}
+        </Typography>
         <iframe
           title="pdf-view"
           style={{

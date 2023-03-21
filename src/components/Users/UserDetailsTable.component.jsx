@@ -13,6 +13,7 @@ import { NewDocumentModal, userDetailsTableHeaders } from ".";
 import { useSelector } from "react-redux";
 import EditDocumentModal from "./EditDocumentModal.component";
 import ViewDocumentModal from "./ViewDocumentModal.component";
+import moment from "moment";
 
 const UserDetailsTable = () => {
   const { userDocuments } = useSelector((state) => state.documents);
@@ -61,7 +62,11 @@ const UserDetailsTable = () => {
                   )}
                 </TableCell>
                 <TableCell style={{ color: "#001E3C" }}>
-                  {document.lastUpdate ? "Fecha" : "NA"}
+                  {document.lastUpdate
+                    ? moment(document.lastUpdate.seconds * 1000).format(
+                        "DD MMMM YYYY"
+                      )
+                    : "NA"}
                 </TableCell>
                 <TableCell>
                   {document.lastUpdate ? (

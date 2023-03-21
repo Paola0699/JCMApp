@@ -26,15 +26,15 @@ const DocumentsListScreen = () => {
   };
   useEffect(() => {
     if (idCategory) getDocumentsList();
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(false);
+      }
+    });
   }, []);
 
-  auth.onAuthStateChanged(async (user) => {
-    if (user) {
-      setUser(user);
-    } else {
-      setUser(false);
-    }
-  });
   return user && userRole?.type === "user" ? (
     <>
       <img
