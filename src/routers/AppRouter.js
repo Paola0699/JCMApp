@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ErrorPage } from '../components/Common';
 import { PDFView } from '../components/Documents';
-import { LoginScreen, UsersScreen, UserDetailsScreen, DocumentsMenuScreen, DocumentsListScreen } from '../pages';
+import { LoginScreen, UsersScreen, UserDetailsScreen, DocumentsMenuScreen, DocumentsListScreen, AlertsScreen } from '../pages';
 
 const AppRouter = () => {
     return (
@@ -14,6 +14,7 @@ const AppRouter = () => {
                 <Route path='/documentos/preview' element={<PDFView />} />
                 <Route path='/usuarios' element={<UsersScreen/>}/>
                 <Route path='/:idUsuario' element={<UserDetailsScreen/>}/>
+                <Route path='/alertas' element={<AlertsScreen/>}/>
                 <Route path='*' element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>

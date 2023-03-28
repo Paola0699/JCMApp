@@ -128,7 +128,7 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
         <Button
           fullWidth
           variant="outlined"
-          disabled={!file}
+          disabled={!file || loading}
           onClick={handleSubmitDocument}
         >
           Guardar

@@ -95,12 +95,18 @@ function ResponsiveAppBar() {
                 <Link to={"/usuarios"} style={{ color: "white" }}>
                   Usuarios
                 </Link>
+                <Link to={"/alertas"} style={{ color: "white" }}>
+                  Alertas
+                </Link>
               </MenuItem>
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Link to={"/usuarios"} style={{ color: "white" }}>
               Usuarios
+            </Link>
+            <Link to={"/alertas"} style={{ color: "white", marginLeft: 20 }}>
+              Alertas
             </Link>
           </Box>
           <Box sx={{ flexGrow: 0 }}>

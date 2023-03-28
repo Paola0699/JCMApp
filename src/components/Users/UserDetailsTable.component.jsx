@@ -25,7 +25,8 @@ const UserDetailsTable = () => {
     setSelectedDoc(document);
     setOpenEdit(true);
   };
-  const handleOpenViewModal = () => {
+  const handleOpenViewModal = (document) => {
+    setSelectedDoc(document);
     setOpenView(true);
   };
   const handleOpenNewModal = (document) => {
@@ -73,16 +74,11 @@ const UserDetailsTable = () => {
                     <>
                       <Button
                         variant="contained"
-                        onClick={handleOpenViewModal}
+                        onClick={()=>handleOpenViewModal(document)}
                         style={{ marginRight: "5px" }}
                       >
                         Ver
                       </Button>
-                      <ViewDocumentModal
-                        open={openView}
-                        setOpen={setOpenView}
-                        documentData={document}
-                      />
                       <Button
                         variant="outlined"
                         onClick={() => handleOpenEditModal(document)}
@@ -119,6 +115,11 @@ const UserDetailsTable = () => {
         setOpen={setOpenNew}
         documentType={selectedDoc}
       />
+        <ViewDocumentModal
+          open={openView}
+          setOpen={setOpenView}
+          documentData={selectedDoc}
+        />
     </Fragment>
   );
 };

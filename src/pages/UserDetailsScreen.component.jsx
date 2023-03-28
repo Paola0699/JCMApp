@@ -1,12 +1,15 @@
-import { Grid, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { getAuth } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useParams } from "react-router-dom";
-import { startGetDocumentsSuccess } from "../actions/userActions";
-import { ResponsiveAppBar } from "../components/Common";
-import UserDetailsTable from "../components/Users/UserDetailsTable.component";
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Grid, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { getAuth } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useParams } from 'react-router-dom';
+import { startGetDocumentsSuccess } from '../actions/userActions';
+import NewAlertModal from '../components/Alerts/NewAlertModal.component';
+import { ResponsiveAppBar } from '../components/Common';
+import UserDetailsTable from '../components/Users/UserDetailsTable.component';
 const auth = getAuth();
 
 const UserDetailsScreen = () => {
@@ -15,6 +18,7 @@ const UserDetailsScreen = () => {
   const [user, setUser] = useState({});
   const { selectedUser } = useSelector((state) => state.documents);
   const { user: userRole } = useSelector((state) => state.auth);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     dispatch(startGetDocumentsSuccess(idUsuario));
@@ -28,45 +32,59 @@ const UserDetailsScreen = () => {
       }
     });
   }, []);
-  return user && userRole?.type === "admin" ? (
+
+  const handleOpen = () => {
+    setOpenModal(true);
+  };
+
+  return user && userRole?.type === 'admin' ? (
     <Grid container>
       <ResponsiveAppBar />
       <Grid
         container
         direction="column"
-        style={{ backgroundColor: "#e5e8eb", height: "100vh" }}
-        p={10}
-      >
+        style={{ backgroundColor: '#e5e8eb', height: '100vh' }}
+        p={10}>
         <Grid item>
           <Box
             style={{
-              backgroundColor: "white",
-              borderRadius: "15px",
-              padding: "40px",
-            }}
-          >
-            <Typography variant="h4">{selectedUser.name}</Typography>
-            <Typography variant="subtitle2">
-              {selectedUser.email} | {selectedUser.company}
-            </Typography>
+              backgroundColor: 'white',
+              borderRadius: '15px',
+              padding: '40px',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}>
+            <div>
+              <Typography variant="h4">{selectedUser.name}</Typography>
+              <Typography variant="subtitle2">
+                {selectedUser.email} | {selectedUser.company}
+              </Typography>
+            </div>
+            <Button
+              variant="contained"
+              startIcon={<FontAwesomeIcon icon={faBell} />}
+              onClick={handleOpen}>
+              Alerta
+            </Button>
           </Box>
         </Grid>
         <Grid item>
           <Box
             style={{
-              backgroundColor: "white",
-              borderRadius: "15px",
-              padding: "30px",
-              marginTop: "20px",
-            }}
-          >
+              backgroundColor: 'white',
+              borderRadius: '15px',
+              padding: '30px',
+              marginTop: '20px'
+            }}>
             <UserDetailsTable />
           </Box>
         </Grid>
       </Grid>
+      <NewAlertModal open={openModal} setOpen={setOpenModal} />
     </Grid>
   ) : (
-    <Navigate to={"/login"} replace={true} />
+    <Navigate to={'/login'} replace={true} />
   );
 };
 export default UserDetailsScreen;
