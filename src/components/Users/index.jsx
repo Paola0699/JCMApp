@@ -19,10 +19,10 @@ const usersTableHeaders = [
     id: "HEAD-3",
     title: "Correo",
   },
-  {
+ /*  {
     id: "HEAD-4",
     title: "Acciones",
-  },
+  }, */
 ];
 const userDetailsTableHeaders = [
   {

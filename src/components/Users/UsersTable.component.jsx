@@ -56,11 +56,11 @@ const UsersTable = () => {
                   {user.company}
                 </TableCell>
                 <TableCell style={{ color: "#001E3C" }}>{user.email}</TableCell>
-                <TableCell style={{ color: "#001E3C" }}>
+               {/*  <TableCell style={{ color: "#001E3C" }}>
                   <Button variant="contained" color="error">
                     Desactivar
                   </Button>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
         </TableBody>
