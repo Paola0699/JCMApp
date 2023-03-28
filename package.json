@@ -4,9 +4,6 @@
   "private": true,
   "lint": "eslint .",
   "lint:fix": "eslint --fix",
-  "engines": {
-    "node": "18.x"
-  },
   "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
