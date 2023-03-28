@@ -22,6 +22,13 @@ export const documentsReducer = (state = initialState, action) => {
                 ...state,
                 userDocuments: action.payload,
             })
+        case types.UPDATE_DOCUMENT_SUCCESS:
+            return({
+                ...state,
+                userDocuments: state.userDocuments.map((e) =>
+                e.id === action.payload.id ? action.payload : e
+              ),
+            })
         case types.GET_SELECTED_USER:
             return({
                 ...state,

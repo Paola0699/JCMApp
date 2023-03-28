@@ -10,6 +10,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateDocumentSuccess } from "../../actions/userActions";
 import { postEditDocument } from "../../services/documentsService";
 import { modalStyle } from "../../variables/styles";
 import { SuccessAlert } from "../Common/index";
@@ -19,6 +21,7 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
   const [progressPercent, setProgressPercent] = useState(0);
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const handleInputClick = () => {
     document.querySelector("#fileSelector").click();
   };
@@ -52,6 +55,11 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
             deleteObject(deleteDocumentRef)
               .then(async () => {
                 await postEditDocument(documentType.id, downloadURL);
+                const newDocument = {
+                    ...documentType,
+                    document: downloadURL
+                }
+                dispatch(updateDocumentSuccess(newDocument));
                 handleClose();
                 SuccessAlert(
                   "Documento editado",

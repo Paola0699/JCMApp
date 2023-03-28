@@ -10,3 +10,8 @@ export const getUserDocumentsSuccess = (documents) => ({
     type: types.GET_DOCUMENT_SUCCESS,
     payload: documents
 });
+
+export const updateDocumentSuccess = (document) => ({
+    type: types.UPDATE_DOCUMENT_SUCCESS,
+    payload: document
+});

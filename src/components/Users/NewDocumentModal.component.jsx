@@ -6,12 +6,14 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postNewDocument } from "../../services/documentsService";
 import { SuccessAlert } from "../Common";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { modalStyle } from "../../variables/styles";
+import { useParams } from "react-router-dom";
+import { startGetDocumentsSuccess } from "../../actions/userActions";
 
 const storage = getStorage();
 
@@ -20,6 +22,8 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
   const [file, setFile] = useState();
   const [progressPercent, setProgressPercent] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { idUsuario } = useParams();
+  const dispatch = useDispatch();
   const handleInputClick = () => {
     document.querySelector("#fileSelector").click();
   };
@@ -53,6 +57,7 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
               downloadURL,
               documentType.id
             );
+            dispatch(startGetDocumentsSuccess(idUsuario));
             handleClose();
             SuccessAlert(
               "Documento cargado",
