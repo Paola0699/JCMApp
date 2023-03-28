@@ -1,21 +1,21 @@
-import { faUpload } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, LinearProgress, Modal, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, LinearProgress, Modal, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import {
   deleteObject,
   getDownloadURL,
   getStorage,
   ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { startGetDocumentsSuccess } from "../../actions/userActions";
-import { postEditDocument } from "../../services/documentsService";
-import { modalStyle } from "../../variables/styles";
-import { SuccessAlert } from "../Common/index";
+  uploadBytesResumable
+} from 'firebase/storage';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { startGetDocumentsSuccess } from '../../actions/userActions';
+import { postEditDocument } from '../../services/documentsService';
+import { modalStyle } from '../../variables/styles';
+import { SuccessAlert } from '../Common/index';
 
 const storage = getStorage();
 const EditDocumentModal = ({ open, setOpen, documentType }) => {
@@ -25,7 +25,7 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
   const { idUsuario } = useParams();
   const dispatch = useDispatch();
   const handleInputClick = () => {
-    document.querySelector("#fileSelector").click();
+    document.querySelector('#fileSelector').click();
   };
   const handleClose = () => {
     setFile();
@@ -40,11 +40,9 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
     const documentRef = ref(storage, `${Date.now()}`);
     const documentTask = uploadBytesResumable(documentRef, file);
     documentTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         setProgressPercent(progress);
       },
       (error) => {
@@ -57,12 +55,9 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
             deleteObject(deleteDocumentRef)
               .then(async () => {
                 await postEditDocument(documentType.id, downloadURL);
-               dispatch(startGetDocumentsSuccess(idUsuario));
+                dispatch(startGetDocumentsSuccess(idUsuario));
                 handleClose();
-                SuccessAlert(
-                  "Documento editado",
-                  "Se ha editado el documento con éxito"
-                );
+                SuccessAlert('Documento editado', 'Se ha editado el documento con éxito');
                 setLoading(false);
               })
               .catch((error) => {
@@ -80,61 +75,50 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+      aria-describedby="modal-modal-description">
       <Box sx={modalStyle}>
         <Typography variant="h5" component="h2">
           Actualizar Documento
         </Typography>
         {loading ? (
-          <Box
-            display={"flex"}
-            justifyContent="center"
-            flexDirection={"column"}
-          >
-            <Typography>
-              Se está subiendo el documento, por favor espere un momento...
-            </Typography>
-            <Typography variant="h2" textAlign={"center"}>
+          <Box display={'flex'} justifyContent="center" flexDirection={'column'}>
+            <Typography>Se está subiendo el documento, por favor espere un momento...</Typography>
+            <Typography variant="h2" textAlign={'center'}>
               {progressPercent}%
             </Typography>
             <LinearProgress
-              style={{ marginBottom: "20px" }}
+              style={{ marginBottom: '20px' }}
               variant="determinate"
               value={progressPercent}
             />
           </Box>
         ) : (
           <>
-            {" "}
+            {' '}
             <input
               id="fileSelector"
               type="file"
               name="file"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               accept="application/pdf"
               onChange={(e) => handleSetDocument(e)}
             />
             <div className="button__upload" onClick={handleInputClick}>
-              <div
-                className="button__upload__border"
-                style={{ border: "3px dashed #001E3C" }}
-              >
+              <div className="button__upload__border" style={{ border: '3px dashed #001E3C' }}>
                 <FontAwesomeIcon icon={faUpload} />
                 <Typography variant="h6">Subir Archivo</Typography>
                 <Typography variant="subtitle1">
-                  {file ? `${file?.name} | ${file.type}` : "(PDF)"}
+                  {file ? `${file?.name} | ${file.type}` : '(PDF)'}
                 </Typography>
               </div>
-            </div>{" "}
+            </div>{' '}
           </>
         )}
         <Button
           fullWidth
           variant="outlined"
           disabled={!file || loading}
-          onClick={handleSubmitDocument}
-        >
+          onClick={handleSubmitDocument}>
           Guardar
         </Button>
       </Box>

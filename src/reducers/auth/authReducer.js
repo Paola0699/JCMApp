@@ -1,32 +1,32 @@
-import { types } from "../../types/types";
+import { types } from '../../types/types';
 
 const initialState = {
-    user: {
-        uid: '',
-        type: '',
-        name: '',
-    },
-    error: {
-        code: '',
-        message: '',
-    },
+  user: {
+    uid: '',
+    type: '',
+    name: ''
+  },
+  error: {
+    code: '',
+    message: ''
+  }
 };
 export const authReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case types.GET_DATA_SUCCESS:
-            return {
-                user: action.payload,
-                error: initialState.error,
-            }
-        case types.GET_DATA_FAILURE:
-            return {
-                ...state,
-                error: {
-                    code: action.payload.code,
-                    message: action.payload.message
-                },
-            }
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case types.GET_DATA_SUCCESS:
+      return {
+        user: action.payload,
+        error: initialState.error
+      };
+    case types.GET_DATA_FAILURE:
+      return {
+        ...state,
+        error: {
+          code: action.payload.code,
+          message: action.payload.message
+        }
+      };
+    default:
+      return state;
+  }
 };

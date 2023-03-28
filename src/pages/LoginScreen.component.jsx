@@ -1,17 +1,13 @@
-import { Grid } from "@mui/material";
-import {
-  LoginButton,
-  LoginHeader,
-  LoginInputs,
-} from "../components/Login/index";
-import { useFormik } from "formik";
-import { loginValidationSchema } from "../validations/loginValidation";
-import { Alert } from "@mui/material";
-import { useState, useEffect } from "react";
-import { getAuth } from "firebase/auth";
-import { Navigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { userAuth } from "../actions/loginActions";
+import { Grid } from '@mui/material';
+import { LoginButton, LoginHeader, LoginInputs } from '../components/Login/index';
+import { useFormik } from 'formik';
+import { loginValidationSchema } from '../validations/loginValidation';
+import { Alert } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { getAuth } from 'firebase/auth';
+import { Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userAuth } from '../actions/loginActions';
 const auth = getAuth();
 
 const LoginScreen = () => {
@@ -21,8 +17,8 @@ const LoginScreen = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      USER: "",
-      PASSWORD: "",
+      USER: '',
+      PASSWORD: ''
     },
     validationSchema: loginValidationSchema,
     onSubmit: async (values) => {
@@ -32,7 +28,7 @@ const LoginScreen = () => {
       } catch (error) {
         console.error(error);
       }
-    },
+    }
   });
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -45,33 +41,28 @@ const LoginScreen = () => {
   }, []);
 
   return user && userRole?.type ? (
-    userRole?.type === "admin" ? (
-      <Navigate to={"/usuarios"} />
+    userRole?.type === 'admin' ? (
+      <Navigate to={'/usuarios'} />
     ) : (
-      <Navigate to={"/documentos"} />
+      <Navigate to={'/documentos'} />
     )
   ) : (
     <Grid
       container
       direction="column"
       sx={{
-        height: "100vh",
-        color: "white",
+        height: '100vh',
+        color: 'white',
         background:
-          "radial-gradient(circle, rgba(0,53,106,1) 0%, rgba(0,30,60,1) 41%, rgba(0,13,25,1) 100%)",
+          'radial-gradient(circle, rgba(0,53,106,1) 0%, rgba(0,30,60,1) 41%, rgba(0,13,25,1) 100%)'
       }}
       display="flex"
       alignItems="center"
-      justifyContent="center"
-    >
+      justifyContent="center">
       <LoginHeader />
       <form onSubmit={formik.handleSubmit}>
         {error.message && error.code ? (
-          <Alert
-            sx={{ marginLeft: 5, marginRight: 5 }}
-            variant="filled"
-            severity="error"
-          >
+          <Alert sx={{ marginLeft: 5, marginRight: 5 }} variant="filled" severity="error">
             {error.message}
           </Alert>
         ) : null}

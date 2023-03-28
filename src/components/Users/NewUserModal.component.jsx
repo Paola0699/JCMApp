@@ -1,32 +1,32 @@
-import { Box, Modal, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import React from "react";
-import { postNewUser } from "../../services/usersService";
-import { newUsersValidationSchema } from "../../validations/newUserValidation";
-import NewUserButton from "./NewUserButton.component";
-import { NewUserInputs } from "./NewUserInputs.component";
+import { Box, Modal, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import React from 'react';
+import { postNewUser } from '../../services/usersService';
+import { newUsersValidationSchema } from '../../validations/newUserValidation';
+import NewUserButton from './NewUserButton.component';
+import { NewUserInputs } from './NewUserInputs.component';
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: "background.paper",
+  bgcolor: 'background.paper',
   boxShadow: 24,
   p: 8,
-  borderRadius: "10px",
+  borderRadius: '10px'
 };
 
 const NewUserModal = ({ open, setOpen }) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      USER_NAME: "",
-      EMAIL: "",
-      PASSWORD: "",
-      PASSWORD_CONFIRM: "",
-      COMPANY: "",
+      USER_NAME: '',
+      EMAIL: '',
+      PASSWORD: '',
+      PASSWORD_CONFIRM: '',
+      COMPANY: ''
     },
     validationSchema: newUsersValidationSchema,
     onSubmit: async (values) => {
@@ -34,11 +34,12 @@ const NewUserModal = ({ open, setOpen }) => {
         const response = await postNewUser(values);
         formik.resetForm();
         setOpen(false);
+        console.log(response);
       } catch (error) {
-        console.log("hay un error");
+        console.log('hay un error');
         console.error(error);
       }
-    },
+    }
   });
 
   const handleClose = () => {
@@ -50,8 +51,7 @@ const NewUserModal = ({ open, setOpen }) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+      aria-describedby="modal-modal-description">
       <Box sx={style}>
         <Typography variant="h5" component="h2">
           Nuevo Usuario

@@ -1,5 +1,5 @@
-import { TextField } from "@mui/material";
-import React from "react";
+import { TextField } from '@mui/material';
+import React from 'react';
 
 export const NewUserInputs = ({ formik }) => {
   return (
@@ -62,13 +62,8 @@ export const NewUserInputs = ({ formik }) => {
         type="password"
         value={formik.values.PASSWORD_CONFIRM}
         onChange={formik.handleChange}
-        error={
-          formik.touched.PASSWORD_CONFIRM &&
-          Boolean(formik.errors.PASSWORD_CONFIRM)
-        }
-        helperText={
-          formik.touched.PASSWORD_CONFIRM && formik.errors.PASSWORD_CONFIRM
-        }
+        error={formik.touched.PASSWORD_CONFIRM && Boolean(formik.errors.PASSWORD_CONFIRM)}
+        helperText={formik.touched.PASSWORD_CONFIRM && formik.errors.PASSWORD_CONFIRM}
         autoFocus={false}
       />
       <TextField

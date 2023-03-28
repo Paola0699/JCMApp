@@ -1,4 +1,4 @@
-import { Grid, Link, TextField } from "@mui/material";
+import { Grid, Link, TextField } from '@mui/material';
 
 const LoginInputs = ({ formik }) => {
   return (
@@ -40,7 +40,7 @@ const LoginInputs = ({ formik }) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Link style={{ color: "white" }}>¿Olvidaste tu contraseña?</Link>
+          <Link style={{ color: 'white' }}>¿Olvidaste tu contraseña?</Link>
         </Grid>
       </Grid>
     </Grid>
