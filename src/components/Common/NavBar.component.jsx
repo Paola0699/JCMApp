@@ -17,7 +17,11 @@ const NavBar = () => {
           label="Documentos"
           icon={<FontAwesomeIcon icon={faFile} />}
         />
-        <BottomNavigationAction label="Tareas" icon={<FontAwesomeIcon icon={faListCheck} />} />
+        <BottomNavigationAction
+          onClick={() => redirection('/tareas')}
+          label="Tareas"
+          icon={<FontAwesomeIcon icon={faListCheck} />}
+        />
         <BottomNavigationAction
           onClick={logOut}
           label="Cerrar Sesión"

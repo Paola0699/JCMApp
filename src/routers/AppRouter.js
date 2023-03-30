@@ -7,7 +7,8 @@ import {
   UserDetailsScreen,
   DocumentsMenuScreen,
   DocumentsListScreen,
-  AlertsScreen
+  AlertsScreen,
+  TasksScreen
 } from '../pages';
 
 const AppRouter = () => {
@@ -23,6 +24,7 @@ const AppRouter = () => {
         <Route path="/:idUsuario" element={<UserDetailsScreen />} />
         <Route path="/alertas" element={<AlertsScreen />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/tareas" element={<TasksScreen />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,21 +1,26 @@
 import { Grid, Box, Typography } from '@mui/material';
+import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { AlertsTable } from '../components/Alerts/index';
 import { ResponsiveAppBar } from '../components/Common';
-import { getAlertsSuccess } from '../services/alertsService';
+const auth = getAuth();
 
 const AlertsScreen = () => {
-  const [alertsList, setAlertsList] = useState([]);
-  const handleGetAlerts = async () => {
-    const response = await getAlertsSuccess();
-    setAlertsList(response);
-  };
-
+  const [user, setUser] = useState({});
+  const { user: userRole } = useSelector((state) => state.auth);
   useEffect(() => {
-    handleGetAlerts();
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(false);
+      }
+    });
   }, []);
 
-  return (
+  return user && userRole?.type === 'admin' ? (
     <Grid container>
       <ResponsiveAppBar />
       <Grid
@@ -44,11 +49,13 @@ const AlertsScreen = () => {
               padding: '30px',
               marginTop: '20px'
             }}>
-            <AlertsTable alertsList={alertsList} />
+            <AlertsTable />
           </Box>
         </Grid>
       </Grid>
     </Grid>
+  ) : (
+    <Navigate to={'/login'} replace={true} />
   );
 };
 export default AlertsScreen;

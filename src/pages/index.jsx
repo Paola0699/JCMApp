@@ -4,6 +4,7 @@ import UsersScreen from './UsersScreen.component';
 import DocumentsMenuScreen from './DocumentsMenuScreen.component';
 import DocumentsListScreen from './DocumentsListScreen.component';
 import AlertsScreen from './AlertsScreen.component';
+import TasksScreen from './TasksScreen.component';
 
 export {
   AlertsScreen,
@@ -11,5 +12,6 @@ export {
   DocumentsListScreen,
   LoginScreen,
   UserDetailsScreen,
-  UsersScreen
+  UsersScreen,
+  TasksScreen
 };
