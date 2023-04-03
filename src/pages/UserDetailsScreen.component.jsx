@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { getAuth } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 import { startGetDocumentsSuccess } from '../actions/userActions';
@@ -38,13 +38,9 @@ const UserDetailsScreen = () => {
   };
 
   return user && userRole?.type === 'admin' ? (
-    <Grid container>
+    <Fragment>
       <ResponsiveAppBar />
-      <Grid
-        container
-        direction="column"
-        style={{ backgroundColor: '#e5e8eb', height: '100vh' }}
-        p={10}>
+      <Grid container style={{ backgroundColor: '#e5e8eb' }} direction={'column'} p={10}>
         <Grid item>
           <Box
             style={{
@@ -82,7 +78,7 @@ const UserDetailsScreen = () => {
         </Grid>
       </Grid>
       <NewAlertModal open={openModal} setOpen={setOpenModal} />
-    </Grid>
+    </Fragment>
   ) : (
     <Navigate to={'/login'} replace={true} />
   );

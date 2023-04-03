@@ -60,5 +60,3 @@ const DocumentsListScreen = () => {
   );
 };
 export default DocumentsListScreen;
-//camposmoron@hotmail.com
-//Viernes capacitación
