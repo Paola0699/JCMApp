@@ -1,4 +1,4 @@
-import { userLogin } from '../services/loginService';
+import { resetPassWord, userLogin } from '../services/loginService';
 import { types } from '../types/types';
 
 export const userAuth = (USER, PASSWORD) => {
@@ -22,4 +22,24 @@ export const getDataSuccess = (user) => ({
 export const getDataFailure = (error) => ({
   type: types.GET_DATA_FAILURE,
   payload: error
+});
+
+export const userResetPassword = (USER) => {
+  return (dispatch) => {
+    resetPassWord(USER)
+      .then(() => {
+        dispatch(updatePasswordSuccess());
+      })
+      .catch(() => {
+        dispatch(updatePasswordFailure());
+      });
+  };
+};
+
+const updatePasswordSuccess = () => ({
+  type: types.UPDATE_PASSWORD_SUCCESS
+});
+
+const updatePasswordFailure = () => ({
+  type: types.UPDATE_PASSWORD_FAILURE
 });

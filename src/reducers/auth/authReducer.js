@@ -9,6 +9,10 @@ const initialState = {
   error: {
     code: '',
     message: ''
+  },
+  resetPass: {
+    error: false,
+    message: ''
   }
 };
 export const authReducer = (state = initialState, action) => {
@@ -16,7 +20,8 @@ export const authReducer = (state = initialState, action) => {
     case types.GET_DATA_SUCCESS:
       return {
         user: action.payload,
-        error: initialState.error
+        error: initialState.error,
+        resetPass: initialState.resetPass
       };
     case types.GET_DATA_FAILURE:
       return {
@@ -24,6 +29,22 @@ export const authReducer = (state = initialState, action) => {
         error: {
           code: action.payload.code,
           message: action.payload.message
+        }
+      };
+    case types.UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        resetPass: {
+          error: false,
+          message: 'Se ha enviado el correo con éxito'
+        }
+      };
+    case types.UPDATE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        resetPass: {
+          error: true,
+          message: 'Ocurrió un error al enviar el correo'
         }
       };
     default:

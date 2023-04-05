@@ -1,4 +1,9 @@
-import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut
+} from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore/lite';
 import app from '../firebaseElements/firebase';
 const auth = getAuth();
@@ -41,4 +46,8 @@ export const logOut = () => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const resetPassWord = (email) => {
+  return sendPasswordResetEmail(auth, email);
 };

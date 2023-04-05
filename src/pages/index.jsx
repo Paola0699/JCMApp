@@ -5,7 +5,7 @@ import DocumentsMenuScreen from './DocumentsMenuScreen.component';
 import DocumentsListScreen from './DocumentsListScreen.component';
 import AlertsScreen from './AlertsScreen.component';
 import TasksScreen from './TasksScreen.component';
-
+import ResetPasswordScreen from './ResetPasswordScreen.component';
 export {
   AlertsScreen,
   DocumentsMenuScreen,
@@ -13,5 +13,6 @@ export {
   LoginScreen,
   UserDetailsScreen,
   UsersScreen,
-  TasksScreen
+  TasksScreen,
+  ResetPasswordScreen
 };

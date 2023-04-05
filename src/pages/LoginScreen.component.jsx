@@ -59,7 +59,10 @@ const LoginScreen = () => {
       display="flex"
       alignItems="center"
       justifyContent="center">
-      <LoginHeader />
+      <LoginHeader
+        title={'¡Bienvenido de nuevo!'}
+        subtitle={'Por favor inicia sesión para continuar'}
+      />
       <form onSubmit={formik.handleSubmit}>
         {error.message && error.code ? (
           <Alert sx={{ marginLeft: 5, marginRight: 5 }} variant="filled" severity="error">

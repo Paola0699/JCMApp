@@ -3,14 +3,13 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   TextField
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 const LoginInputs = ({ formik }) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -72,7 +71,9 @@ const LoginInputs = ({ formik }) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Link style={{ color: 'white' }}>¿Olvidaste tu contraseña?</Link>
+          <Link style={{ color: 'white' }} to={'/resetpassword'}>
+            ¿Olvidaste tu contraseña?
+          </Link>
         </Grid>
       </Grid>
     </Grid>
