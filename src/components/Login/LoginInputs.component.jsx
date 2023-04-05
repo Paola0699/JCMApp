@@ -1,10 +1,29 @@
-import { Grid, Link, TextField } from '@mui/material';
+import {
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Link,
+  OutlinedInput,
+  TextField
+} from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 const LoginInputs = ({ formik }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Grid item display="flex" alignItems="center" justifyContent="center">
       <Grid container p={4}>
         <Grid item xs={12}>
+          <InputLabel>Email</InputLabel>
           <TextField
             fullWidth
             color="primary"
@@ -22,21 +41,34 @@ const LoginInputs = ({ formik }) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <InputLabel>Contraseña</InputLabel>
+          <OutlinedInput
             fullWidth
-            color="primary"
+            label="Contraseña"
             id="PASSWORD"
             name="PASSWORD"
-            label="Contraseña"
-            variant="outlined"
-            type="password"
-            margin="normal"
-            size="small"
+            type={showPassword ? 'text' : 'password'}
             value={formik.values.PASSWORD}
             onChange={formik.handleChange}
             error={formik.touched.PASSWORD && Boolean(formik.errors.PASSWORD)}
             helperText={formik.touched.PASSWORD && formik.errors.PASSWORD}
             autoFocus={false}
+            size="small"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end">
+                  {showPassword ? (
+                    <FontAwesomeIcon icon={faEye} style={{ color: 'white' }} />
+                  ) : (
+                    <FontAwesomeIcon icon={faEyeSlash} style={{ color: 'white' }} />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
           />
         </Grid>
         <Grid item xs={12}>
