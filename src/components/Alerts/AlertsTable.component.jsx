@@ -14,8 +14,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { postEditTask } from '../../services/tasksService';
 import { SuccessAlert } from '../Common/SuccessAlert';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { getAlertsSuccess } from '../../services/alertsService';
+import NoAlertsFound from './NoAlertsFound.component';
 
 const AlertsTable = () => {
   const [alertsList, setAlertsList] = useState([]);
@@ -37,46 +38,52 @@ const AlertsTable = () => {
     }
   };
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {headerTitles.map((headerTitle) => (
-              <TableCell style={{ color: '#001E3C' }} key={headerTitle.id}>
-                {headerTitle.name}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {alertsList?.map((alert) => (
-            <TableRow key={alert.id}>
-              <TableCell style={{ color: '#001E3C' }}>{alert.title}</TableCell>
-              <TableCell style={{ color: '#001E3C' }}>{alert.description}</TableCell>
-              <TableCell style={{ color: '#001E3C' }}>{alert.userName}</TableCell>
-              <TableCell style={{ color: '#001E3C' }}>
-                {' '}
-                {moment(alert?.date?.seconds * 1000).format('DD MMMM YYYY')}
-              </TableCell>
-              <TableCell>
-                <Chip
-                  color={alert.status === 'Pendiente' ? 'error' : 'success'}
-                  label={alert.status}
-                />
-                {alert.status === 'Pendiente' && (
-                  <IconButton
-                    aria-label="delete"
-                    color="success"
-                    onClick={() => handleEditAlert(alert)}>
-                    <FontAwesomeIcon icon={faCheck} />
-                  </IconButton>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Fragment>
+      {alertsList && alertsList.length > 0 ? (
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {headerTitles.map((headerTitle) => (
+                  <TableCell style={{ color: '#001E3C' }} key={headerTitle.id}>
+                    {headerTitle.name}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {alertsList?.map((alert) => (
+                <TableRow key={alert.id}>
+                  <TableCell style={{ color: '#001E3C' }}>{alert.title}</TableCell>
+                  <TableCell style={{ color: '#001E3C' }}>{alert.description}</TableCell>
+                  <TableCell style={{ color: '#001E3C' }}>{alert.userName}</TableCell>
+                  <TableCell style={{ color: '#001E3C' }}>
+                    {' '}
+                    {moment(alert?.date?.seconds * 1000).format('DD MMMM YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    <Chip
+                      color={alert.status === 'Pendiente' ? 'error' : 'success'}
+                      label={alert.status}
+                    />
+                    {alert.status === 'Pendiente' && (
+                      <IconButton
+                        aria-label="delete"
+                        color="success"
+                        onClick={() => handleEditAlert(alert)}>
+                        <FontAwesomeIcon icon={faCheck} />
+                      </IconButton>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <NoAlertsFound />
+      )}
+    </Fragment>
   );
 };
 export default AlertsTable;
