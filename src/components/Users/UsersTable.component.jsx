@@ -1,32 +1,47 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
+} from '@mui/material';
 import React, { Fragment, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { NoUsersFound, usersTableHeaders } from '.';
 import { getSelectedUser } from '../../actions/documentsActions';
 import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 import app from '../../firebaseElements/firebase';
+import { setLoadingUsers } from '../../actions/loadingActions';
 const db = getFirestore(app);
 
 const UsersTable = () => {
   const dispatch = useDispatch();
   const [usersList, setUsersList] = useState([]);
+  const { loadingUsers } = useSelector((state) => state.loading);
 
   const setSelectedUser = (user) => {
     dispatch(getSelectedUser(user));
   };
 
-  useEffect(
-    () =>
-      onSnapshot(query(collection(db, 'accounts'), where('type', '==', 'user')), (snapshot) =>
-        setUsersList(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
-      ),
-    []
-  );
+  useEffect(() => {
+    dispatch(setLoadingUsers(true));
+    onSnapshot(query(collection(db, 'accounts'), where('type', '==', 'user')), (snapshot) => {
+      setUsersList(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      dispatch(setLoadingUsers(false));
+    });
+  }, []);
 
   return (
     <Fragment>
-      {usersList && usersList.length > 0 ? (
+      {loadingUsers ? (
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      ) : usersList && usersList.length > 0 ? (
         <TableContainer>
           <Table>
             <TableHead>
