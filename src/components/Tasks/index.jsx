@@ -1,2 +1,3 @@
 import TaskCard from './TaskCard.component';
-export { TaskCard };
+import NoTasksFoundMessage from './NoTasksFoundMessage.component';
+export { NoTasksFoundMessage, TaskCard };

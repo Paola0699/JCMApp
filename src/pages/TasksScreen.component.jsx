@@ -4,21 +4,18 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { NavBar } from '../components/Common';
-import { TaskCard } from '../components/Tasks';
-import { getTaksSuccess } from '../services/tasksService';
+import { NoTasksFoundMessage, TaskCard } from '../components/Tasks';
+import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
+import app from '../firebaseElements/firebase';
 const auth = getAuth();
+const db = getFirestore(app);
 
 const TasksScreen = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const [user, setUser] = useState({});
   const [tasksList, setTasksList] = useState([]);
-  const handleGetTasks = async () => {
-    const respose = await getTaksSuccess(currentUser.uid);
-    setTasksList(respose);
-  };
-  useEffect(() => {
-    if (currentUser) handleGetTasks();
 
+  useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
@@ -27,6 +24,19 @@ const TasksScreen = () => {
       }
     });
   }, []);
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, 'alerts'),
+          where('user', '==', currentUser.uid),
+          where('status', '==', 'Pendiente')
+        ),
+        (snapshot) => setTasksList(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+      ),
+    []
+  );
   return user && currentUser?.type === 'user' ? (
     <Fragment>
       <img
@@ -35,11 +45,11 @@ const TasksScreen = () => {
         src="https://www.incimages.com/uploaded_files/image/1920x1080/getty_538661656_367462.jpg"
       />
       <Grid container direction={'column'} spacing={2} padding={2}>
-        {tasksList?.map((task) => {
-          if (task.status === 'Pendiente') {
-            return <TaskCard key={task.id} task={task} />;
-          }
-        })}
+        {tasksList && tasksList?.length > 0 ? (
+          tasksList?.map((task) => <TaskCard key={task.id} task={task} />)
+        ) : (
+          <NoTasksFoundMessage />
+        )}
       </Grid>
       <NavBar />
     </Fragment>

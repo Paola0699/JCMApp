@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc, getDocs, query } from 'firebase/firestore/lite';
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from 'firebase/firestore/lite';
 import app from '../firebaseElements/firebase';
 
 const db = getFirestore(app);
@@ -15,7 +15,7 @@ export const postNewAlert = async (user, alert) => {
 };
 
 export const getAlertsSuccess = async () => {
-  const alertsCol = query(collection(db, 'alerts'));
+  const alertsCol = query(collection(db, 'alerts'), orderBy('date', 'desc'));
   const alertsSnapshot = await getDocs(alertsCol);
   const alertsList = alertsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   return alertsList;
