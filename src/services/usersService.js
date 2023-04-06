@@ -22,16 +22,24 @@ export const getAllUsers = async () => {
 
 export const postNewUser = async (user) => {
   const { USER_NAME, EMAIL, PASSWORD, COMPANY } = user;
-  return await createUserWithEmailAndPassword(auth, EMAIL, PASSWORD).then(
-    async (userCredential) => {
-      return await setDoc(doc(db, 'accounts', userCredential.user.uid), {
+  return await createUserWithEmailAndPassword(auth, EMAIL, PASSWORD)
+    .then(async (userCredential) => {
+      await setDoc(doc(db, 'accounts', userCredential.user.uid), {
         company: COMPANY,
         email: EMAIL,
         name: USER_NAME,
         type: 'user'
       });
-    }
-  );
+      return {
+        message: 'Success'
+      };
+    })
+    .catch((error) => {
+      return {
+        message: 'Error',
+        error
+      };
+    });
 };
 
 export const getUserDocument = async (userId, cathegoryId) => {

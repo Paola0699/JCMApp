@@ -5,6 +5,7 @@ import { postNewUser } from '../../services/usersService';
 import { newUsersValidationSchema } from '../../validations/newUserValidation';
 import NewUserButton from './NewUserButton.component';
 import { NewUserInputs } from './NewUserInputs.component';
+import { SuccessAlert } from '../Common/SuccessAlert';
 
 const style = {
   position: 'absolute',
@@ -32,9 +33,11 @@ const NewUserModal = ({ open, setOpen }) => {
     onSubmit: async (values) => {
       try {
         const response = await postNewUser(values);
-        formik.resetForm();
-        setOpen(false);
-        console.log(response);
+        if (response.message === 'Success') {
+          SuccessAlert('Usuario Creado', 'Se ha creado el usuario con éxito');
+          formik.resetForm();
+          setOpen(false);
+        }
       } catch (error) {
         console.log('hay un error');
         console.error(error);
