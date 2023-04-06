@@ -1,6 +1,6 @@
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, LinearProgress, Modal, Typography } from '@mui/material';
+import { Alert, Button, LinearProgress, Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import {
   deleteObject,
@@ -22,6 +22,7 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
   const [progressPercent, setProgressPercent] = useState(0);
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const { idUsuario } = useParams();
   const dispatch = useDispatch();
   const handleInputClick = () => {
@@ -34,6 +35,22 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
   };
   const handleSetDocument = (e) => {
     setFile(e.target.files[0]);
+  };
+  const validateSelectedFile = () => {
+    const MAX_FILE_SIZE = 5120; // 5MB
+
+    if (!file) {
+      setErrorMsg('Por favor elige un archivo');
+      return;
+    }
+    const fileSizeKiloBytes = file.size / 1024;
+
+    if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+      setErrorMsg('El tamaño del archivo es mayor que el límite máximo (5MB)');
+      return;
+    }
+    setErrorMsg('');
+    handleSubmitDocument();
   };
   const handleSubmitDocument = () => {
     setLoading(true);
@@ -80,6 +97,11 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
         <Typography variant="h5" component="h2">
           Actualizar Documento
         </Typography>
+        {errorMsg && (
+          <Alert variant="filled" severity="error">
+            {errorMsg}
+          </Alert>
+        )}
         {loading ? (
           <Box display={'flex'} justifyContent="center" flexDirection={'column'}>
             <Typography>Se está subiendo el documento, por favor espere un momento...</Typography>
@@ -118,7 +140,7 @@ const EditDocumentModal = ({ open, setOpen, documentType }) => {
           fullWidth
           variant="outlined"
           disabled={!file || loading}
-          onClick={handleSubmitDocument}>
+          onClick={validateSelectedFile}>
           Guardar
         </Button>
       </Box>

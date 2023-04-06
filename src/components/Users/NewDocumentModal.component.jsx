@@ -1,4 +1,4 @@
-import { Box, Button, LinearProgress, Modal, Typography } from '@mui/material';
+import { Alert, Box, Button, LinearProgress, Modal, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,18 +17,37 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
   const [file, setFile] = useState();
   const [progressPercent, setProgressPercent] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const { idUsuario } = useParams();
   const dispatch = useDispatch();
   const handleInputClick = () => {
     document.querySelector('#fileSelector').click();
   };
   const handleClose = () => {
+    setErrorMsg('');
     setFile();
     setOpen(false);
   };
   const handleSetDocument = (e) => {
     setFile(e.target.files[0]);
   };
+  const validateSelectedFile = () => {
+    const MAX_FILE_SIZE = 5120; // 5MB
+
+    if (!file) {
+      setErrorMsg('Por favor elige un archivo');
+      return;
+    }
+    const fileSizeKiloBytes = file.size / 1024;
+
+    if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+      setErrorMsg('El tamaño del archivo es mayor que el límite máximo (5MB)');
+      return;
+    }
+    setErrorMsg('');
+    handleSubmitDocument();
+  };
+
   const handleSubmitDocument = () => {
     setLoading(true);
     const documentRef = ref(storage, `${Date.now()}`);
@@ -67,6 +86,11 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
         <Typography variant="h5" component="h2">
           Cargar Nuevo Documento
         </Typography>
+        {errorMsg && (
+          <Alert variant="filled" severity="error">
+            {errorMsg}
+          </Alert>
+        )}
         {loading ? (
           <Box display={'flex'} justifyContent="center" flexDirection={'column'}>
             <Typography>Se está subiendo el documento, por favor espere un momento...</Typography>
@@ -105,7 +129,7 @@ const NewDocumentModal = ({ open, setOpen, documentType }) => {
           fullWidth
           variant="outlined"
           disabled={!file || loading}
-          onClick={handleSubmitDocument}>
+          onClick={validateSelectedFile}>
           Guardar
         </Button>
       </Box>

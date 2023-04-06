@@ -40,7 +40,11 @@ const UserDetailsScreen = () => {
   return user && userRole?.type === 'admin' ? (
     <Fragment>
       <ResponsiveAppBar />
-      <Grid container style={{ backgroundColor: '#e5e8eb' }} direction={'column'} p={10}>
+      <Grid
+        container
+        style={{ backgroundColor: '#e5e8eb', height: '100vh' }}
+        direction={'column'}
+        p={10}>
         <Grid item>
           <Box
             style={{
