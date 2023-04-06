@@ -47,13 +47,15 @@ const DocumentsListScreen = () => {
         display="flex"
         alignItems="center"
         justifyContent="center">
-        <List sx={style} component="nav" aria-label="mailbox folders">
-          {documentsList &&
-            documentsList.map((document) => (
+        {documentsList && documentsList.length > 0 ? (
+          <List sx={style} component="nav" aria-label="mailbox folders">
+            {documentsList?.map((document) => (
               <DocumentsListCard document={document} key={document.id} />
             ))}
-        </List>
-        <NoDocumetsType />
+          </List>
+        ) : (
+          <NoDocumetsType />
+        )}
       </Grid>
       <NavBar />
     </>
