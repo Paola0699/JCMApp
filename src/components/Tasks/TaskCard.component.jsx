@@ -1,6 +1,5 @@
 import { Card, CardContent, Chip, Grid, Typography } from '@mui/material';
 import moment from 'moment';
-import React from 'react';
 
 const TaskCard = ({ task }) => {
   return (
