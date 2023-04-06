@@ -4,21 +4,26 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { NoUsersFound, usersTableHeaders } from '.';
 import { getSelectedUser } from '../../actions/documentsActions';
-import { getAllUsers } from '../../services/usersService';
+import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
+import app from '../../firebaseElements/firebase';
+const db = getFirestore(app);
 
 const UsersTable = () => {
   const dispatch = useDispatch();
   const [usersList, setUsersList] = useState([]);
-  const getUsers = async () => {
-    const response = await getAllUsers();
-    setUsersList(response);
-  };
+
   const setSelectedUser = (user) => {
     dispatch(getSelectedUser(user));
   };
-  useEffect(() => {
-    getUsers();
-  }, []);
+
+  useEffect(
+    () =>
+      onSnapshot(query(collection(db, 'accounts'), where('type', '==', 'user')), (snapshot) =>
+        setUsersList(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+      ),
+    []
+  );
+
   return (
     <Fragment>
       {usersList && usersList.length > 0 ? (
