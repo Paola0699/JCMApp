@@ -1,7 +1,7 @@
 import UsersTable from './UsersTable.component';
 import NewUserModal from './NewUserModal.component';
 import NewDocumentModal from './NewDocumentModal.component';
-
+import NoUsersFound from './NoUsersFound.component';
 const usersTableHeaders = [
   {
     id: 'HEAD-0',
@@ -42,4 +42,11 @@ const userDetailsTableHeaders = [
     title: 'Acciones'
   }
 ];
-export { usersTableHeaders, UsersTable, NewUserModal, userDetailsTableHeaders, NewDocumentModal };
+export {
+  usersTableHeaders,
+  UsersTable,
+  NewUserModal,
+  userDetailsTableHeaders,
+  NewDocumentModal,
+  NoUsersFound
+};
