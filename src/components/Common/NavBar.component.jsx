@@ -5,16 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import { logOut } from '../../services/loginService';
 import { useEffect, useState } from 'react';
 import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import app from '../../firebaseElements/firebase';
+import { setCurrentPath } from '../../actions/loginActions';
 const db = getFirestore(app);
 
 const NavBar = () => {
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { user: currentUser, currentPath } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [tasksList, setTasksList] = useState([]);
   const redirection = (url) => {
-    navigate(url);
+    navigate(`/${url}`);
   };
   useEffect(
     () =>
@@ -28,30 +30,50 @@ const NavBar = () => {
       ),
     []
   );
+  const handleChange = (event, newValue) => {
+    if (newValue !== 'logout') {
+      redirection(newValue);
+      dispatch(setCurrentPath(newValue));
+    } else {
+      logOut();
+    }
+  };
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={4}>
-      <BottomNavigation showLabels sx={{ height: '5rem' }}>
+      <BottomNavigation
+        showLabels
+        sx={{ height: '5rem' }}
+        value={currentPath}
+        onChange={handleChange}>
         <BottomNavigationAction
-          onClick={() => redirection('/documentos')}
           label="Documentos"
           icon={<FontAwesomeIcon icon={faFile} />}
-          style={{ color: '#4c6176' }}
+          style={{
+            color: currentPath.path === 'documentos' ? '#4c6176' : '#a5b0ba',
+            borderTop: currentPath.path === 'documentos' && '2px solid #4c6176'
+          }}
+          value="documentos"
         />
         <BottomNavigationAction
-          onClick={() => redirection('/tareas')}
           label="Tareas"
-          style={{ color: '#4c6176' }}
+          style={{
+            color: currentPath.path === 'tareas' ? '#4c6176' : '#a5b0ba',
+            borderTop: currentPath.path === 'tareas' && '2px solid #4c6176'
+          }}
           icon={
             <Badge badgeContent={tasksList?.length} color="success">
               <FontAwesomeIcon icon={faListCheck} />
             </Badge>
           }
+          value="tareas"
         />
         <BottomNavigationAction
-          onClick={logOut}
           label="Cerrar Sesión"
-          style={{ color: '#4c6176' }}
+          style={{
+            color: currentPath.path === 'logout' ? '#4c6176' : '#a5b0ba'
+          }}
           icon={<FontAwesomeIcon icon={faArrowRightFromBracket} />}
+          value="logout"
         />
       </BottomNavigation>
     </Paper>

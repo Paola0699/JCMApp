@@ -43,3 +43,8 @@ const updatePasswordSuccess = () => ({
 const updatePasswordFailure = () => ({
   type: types.UPDATE_PASSWORD_FAILURE
 });
+
+export const setCurrentPath = (path) => ({
+  type: types.SET_CURRENT_PATH,
+  payload: path
+});

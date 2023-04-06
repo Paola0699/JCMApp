@@ -13,6 +13,9 @@ const initialState = {
   resetPass: {
     error: false,
     message: ''
+  },
+  currentPath: {
+    path: 'documentos'
   }
 };
 export const authReducer = (state = initialState, action) => {
@@ -45,6 +48,13 @@ export const authReducer = (state = initialState, action) => {
         resetPass: {
           error: true,
           message: 'Ocurrió un error al enviar el correo'
+        }
+      };
+    case types.SET_CURRENT_PATH:
+      return {
+        ...state,
+        currentPath: {
+          path: action.payload
         }
       };
     default:
