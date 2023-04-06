@@ -6,6 +6,7 @@ import { getAllDocumetsByCategory } from '../services/documentsService';
 import NavBar from '../components/Common/NavBar.component';
 import DocumentsListCard from '../components/Documents/DocumentsListCard.component';
 import { useSelector } from 'react-redux';
+import NoDocumetsType from '../components/Documents/NoDocumetsType.component';
 const auth = getAuth();
 
 const style = {
@@ -52,6 +53,7 @@ const DocumentsListScreen = () => {
               <DocumentsListCard document={document} key={document.id} />
             ))}
         </List>
+        <NoDocumetsType />
       </Grid>
       <NavBar />
     </>

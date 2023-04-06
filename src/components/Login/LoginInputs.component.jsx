@@ -50,7 +50,6 @@ const LoginInputs = ({ formik }) => {
             value={formik.values.PASSWORD}
             onChange={formik.handleChange}
             error={formik.touched.PASSWORD && Boolean(formik.errors.PASSWORD)}
-            helperText={formik.touched.PASSWORD && formik.errors.PASSWORD}
             autoFocus={false}
             size="small"
             endAdornment={
