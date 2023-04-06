@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { NavBar } from '../components/Common';
 import { NoTasksFoundMessage, TaskCard } from '../components/Tasks';
-import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, getFirestore, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import app from '../firebaseElements/firebase';
 const auth = getAuth();
 const db = getFirestore(app);
@@ -31,7 +31,8 @@ const TasksScreen = () => {
         query(
           collection(db, 'alerts'),
           where('user', '==', currentUser.uid),
-          where('status', '==', 'Pendiente')
+          where('status', '==', 'Pendiente'),
+          orderBy('date', 'desc')
         ),
         (snapshot) => setTasksList(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
       ),
