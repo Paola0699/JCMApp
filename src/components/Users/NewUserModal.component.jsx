@@ -1,6 +1,6 @@
-import { Box, Modal, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, Modal, Typography } from '@mui/material';
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { postNewUser } from '../../services/usersService';
 import { newUsersValidationSchema } from '../../validations/newUserValidation';
 import NewUserButton from './NewUserButton.component';
@@ -20,6 +20,7 @@ const style = {
 };
 
 const NewUserModal = ({ open, setOpen }) => {
+  const [errorMsg, setErrorMsg] = useState({});
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -37,6 +38,9 @@ const NewUserModal = ({ open, setOpen }) => {
           SuccessAlert('Usuario Creado', 'Se ha creado el usuario con éxito');
           formik.resetForm();
           setOpen(false);
+        } else {
+          console.log(response);
+          setErrorMsg(response);
         }
       } catch (error) {
         console.log('hay un error');
@@ -62,6 +66,12 @@ const NewUserModal = ({ open, setOpen }) => {
         <Typography variant="subtitle2" sx={{ mt: 2 }}>
           Ingrese los datos del usuario para crear una nueva cuenta.
         </Typography>
+        {errorMsg && errorMsg?.error && (
+          <Alert variant="filled" severity="error">
+            <AlertTitle>{errorMsg.message}</AlertTitle>
+            {errorMsg.error.code}
+          </Alert>
+        )}
         <form onSubmit={formik.handleSubmit}>
           <NewUserInputs formik={formik} />
           <NewUserButton />

@@ -49,16 +49,16 @@ const NavBar = () => {
           label="Documentos"
           icon={<FontAwesomeIcon icon={faFile} />}
           style={{
-            color: currentPath.path === 'documentos' ? '#4c6176' : '#a5b0ba',
-            borderTop: currentPath.path === 'documentos' && '2px solid #4c6176'
+            color: currentPath?.path === 'documentos' ? '#4c6176' : '#a5b0ba',
+            borderTop: currentPath?.path === 'documentos' && '2px solid #4c6176'
           }}
           value="documentos"
         />
         <BottomNavigationAction
           label="Tareas"
           style={{
-            color: currentPath.path === 'tareas' ? '#4c6176' : '#a5b0ba',
-            borderTop: currentPath.path === 'tareas' && '2px solid #4c6176'
+            color: currentPath?.path === 'tareas' ? '#4c6176' : '#a5b0ba',
+            borderTop: currentPath?.path === 'tareas' && '2px solid #4c6176'
           }}
           icon={
             <Badge badgeContent={tasksList?.length} color="success">
@@ -70,7 +70,7 @@ const NavBar = () => {
         <BottomNavigationAction
           label="Cerrar Sesión"
           style={{
-            color: currentPath.path === 'logout' ? '#4c6176' : '#a5b0ba'
+            color: currentPath?.path === 'logout' ? '#4c6176' : '#a5b0ba'
           }}
           icon={<FontAwesomeIcon icon={faArrowRightFromBracket} />}
           value="logout"
