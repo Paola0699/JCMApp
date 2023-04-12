@@ -14,3 +14,13 @@ export const setLoadingDocumentCategories = (status) => ({
   type: types.SET_LOADING_DOCUMENT_CATEGORIES,
   payload: status
 });
+
+export const setLoadingUserDetails = (status) => ({
+  type: types.SET_LOADING_USER_DETAILS,
+  payload: status
+});
+
+export const setLoadingAlerts = (status) => ({
+  type: types.SET_LOADING_ALERTS,
+  payload: status
+});

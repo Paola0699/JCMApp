@@ -6,7 +6,9 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  CircularProgress,
+  Box
 } from '@mui/material';
 import { headerTitles } from '.';
 import moment from 'moment';
@@ -17,12 +19,18 @@ import { SuccessAlert } from '../Common/SuccessAlert';
 import { Fragment, useEffect, useState } from 'react';
 import { getAlertsSuccess } from '../../services/alertsService';
 import NoAlertsFound from './NoAlertsFound.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoadingAlerts } from '../../actions/loadingActions';
 
 const AlertsTable = () => {
+  const dispatch = useDispatch();
+  const { loadingAlerts } = useSelector((state) => state.loading);
   const [alertsList, setAlertsList] = useState([]);
   const handleGetAlerts = async () => {
+    dispatch(setLoadingAlerts(true));
     const response = await getAlertsSuccess();
     setAlertsList(response);
+    dispatch(setLoadingAlerts(false));
   };
   useEffect(() => {
     handleGetAlerts();
@@ -39,7 +47,11 @@ const AlertsTable = () => {
   };
   return (
     <Fragment>
-      {alertsList && alertsList.length > 0 ? (
+      {loadingAlerts ? (
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      ) : alertsList && alertsList.length > 0 ? (
         <TableContainer>
           <Table>
             <TableHead>
